@@ -1000,6 +1000,8 @@ for (let i = 0; i < chartCount; i++) {
        }
        // Create matrix rain effect
        function createMatrixRain() {
+           const matrix = document.getElementById('matrixRain');                 // <— you were missing this
+  const characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';   
            const colCount = isMobile ? 10 : 20;
 for (let i = 0; i < colCount; i++) {
   const column = document.createElement('div');
