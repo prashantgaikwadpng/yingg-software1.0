@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#0b0d12" />
 <title>Yingg Software Solution – Business Intelligence & Analytics Excellence</title>
+<link rel="preload" as="image" href="/bi1.jpg">
+<link rel="preload" as="image" href="/bi2.jpg">
+<link rel="preload" as="image" href="/bi3.jpg">
+
 
 <style>
   /* ============ TOKENS ============ */
@@ -729,6 +733,14 @@
   }
   step();
 })();
+/* Hide any broken hero slide */
+document.querySelectorAll('.hero-slides img').forEach(img => {
+  img.addEventListener('error', () => {
+    console.warn('Hero image failed to load:', img.src);
+    img.style.display = 'none';           // remove the bad slide
+  }, { once:true });
+});
+
 
   /* ===== reveal on scroll + chart animations ===== */
   const io = new IntersectionObserver((entries)=>{
