@@ -687,6 +687,41 @@ select option {
   pointer-events: none;
   will-change: transform;
 }
+/* hamburger button (hidden on desktop) */
+.menu-toggle{
+  display:none;
+  font-size:1.6rem;
+  background:transparent;
+  border:0;
+  color:#e6e8ef;
+  cursor:pointer;
+  padding: .25rem .5rem;
+  border-radius: .5rem;
+}
+
+/* mobile nav drawer */
+@media (max-width: 768px){
+  .menu-toggle{ display:block; }
+
+  .nav-links{
+    position: absolute;
+    top: calc(var(--header-h));
+    right: 0;
+    left: 0;
+    display: none;   /* hidden by default */
+    flex-direction: column;
+    gap: .25rem;
+    padding: .75rem 5%;
+    background: rgba(10,10,10,.98);
+    border-bottom: 1px solid rgba(255,0,110,.25);
+  }
+  .nav-links a{
+    display:block;
+    padding: .9rem 1rem;
+    border-radius: .6rem;
+  }
+  .nav-links.open{ display:flex; }
+}
 
 </style>
 </head>
@@ -704,6 +739,8 @@ select option {
 <header>
 <nav>
 <div class="logo">Yingg Software</div>
+<button class="menu-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
+
 <ul class="nav-links">
 <li><a href="#home">Home</a></li>
 <li><a href="#services">BI Services</a></li>
@@ -1145,16 +1182,23 @@ for (let i = 0; i < colCount; i++) {
            }, 100);
        });
        // Dynamic background color based on scroll
-       let lastScrollTop = 0;
-       window.addEventListener('scroll', function() {
-           const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-           const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-           const scrollPercentage = scrollTop / maxScroll;
-           const bgContainer = document.querySelector('.background-container');
-           const hue = 300 + (scrollPercentage * 60); // Shifts from pink to purple to blue
-           bgContainer.style.filter = `hue-rotate(${hue}deg) brightness(${1 + scrollPercentage * 0.2})`;
-           lastScrollTop = scrollTop;
-       });
+       // Dynamic background color based on scroll (desktop only)
+let lastScrollTop = 0;
+if (!isMobile){
+  window.addEventListener('scroll', function() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollPercentage = maxScroll > 0 ? (scrollTop / maxScroll) : 0;
+    const bgContainer = document.querySelector('.background-container');
+    const hue = 300 + (scrollPercentage * 60);
+    bgContainer.style.filter = `hue-rotate(${hue}deg) brightness(${1 + scrollPercentage * 0.2})`;
+    lastScrollTop = scrollTop;
+  });
+} else {
+  const bgContainer = document.querySelector('.background-container');
+  if (bgContainer) bgContainer.style.filter = 'none';
+}
+
        // Add typing effect to hero subtitle
        function typeWriter(element, text, speed = 50) {
            let i = 0;
@@ -1176,6 +1220,23 @@ for (let i = 0; i < colCount; i++) {
                typeWriter(subtitle, originalText, 30);
            }
        }, 2500);
+       // mobile menu toggle
+const menuBtn = document.querySelector('.menu-toggle');
+const navLinks = document.querySelector('.nav-links');
+if (menuBtn && navLinks){
+  menuBtn.addEventListener('click', () => {
+    const open = navLinks.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  // close menu when a link is clicked
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+    });
+  });
+}
+
 </script>
 </body>
 </html>
