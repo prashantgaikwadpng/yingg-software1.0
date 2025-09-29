@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yingg Software Solution - Business Intelligence & Analytics Excellence</title>
+<style>
+       * {
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+       }
+       :root{
+  --header-h: 72px;        /* adjust if you change header size */
+  --section-py: 8rem;
+  --section-py-mobile: 5rem;
+  --container-w: 1200px;
+}
+:root{
+  --header-h: 72px;        /* adjust if header height changes */
+  --section-py: 8rem;
+  --section-py-mobile: 5rem;
+  --container-w: 1200px;
+}
+
+/* push the page below the fixed header */
+body { padding-top: var(--header-h); }
+
+/* anchor jumps stop below the fixed header */
+section { scroll-margin-top: calc(var(--header-h) + 12px); }
+
+/* optional container helper */
+.container{ max-width: var(--container-w); margin: 0 auto; padding-inline: 5%; }
+
+       body {
+           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+           background: #0a0a0a;
+           color: white;
+           overflow-x: hidden;
+           line-height: 1.6;
+       }
+       /* Advanced Background Animation */
+       .background-container {
+           position: fixed;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 100%;
+           z-index: -2;
+           background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff, #06ffa5);
+           background-size: 400% 400%;
+           animation: gradientShift 20s ease infinite;
+       }
+       .neural-network {
+           position: fixed;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 100%;
+           z-index: -1;
+           opacity: 0.3;
+       }
+       .data-node {
+           position: absolute;
+           width: 4px;
+           height: 4px;
+           background: #ff006e;
+           border-radius: 50%;
+           animation: dataFlow 8s infinite linear;
+           box-shadow: 0 0 10px #ff006e, 0 0 20px #ff006e;
+       }
+       .data-connection {
+           position: absolute;
+           height: 1px;
+           background: linear-gradient(90deg, transparent, #ff006e, transparent);
+           animation: connectionPulse 4s infinite;
+       }
+       .floating-charts {
+           position: fixed;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 100%;
+           z-index: -1;
+           opacity: 0.1;
+       }
+       .chart-element {
+           position: absolute;
+           width: 60px;
+           height: 60px;
+           border: 2px solid #ff006e;
+           border-radius: 10px;
+           animation: floatChart 15s infinite ease-in-out;
+       }
+       @keyframes gradientShift {
+           0% { background-position: 0% 50%; }
+           25% { background-position: 100% 50%; }
+           50% { background-position: 50% 100%; }
+           75% { background-position: 0% 50%; }
+           100% { background-position: 0% 50%; }
+       }
+       @keyframes dataFlow {
+           0% { transform: translate(0, 0) scale(0.5); opacity: 0; }
+           10% { opacity: 1; }
+           90% { opacity: 1; }
+           100% { transform: translate(100vw, 100vh) scale(1.5); opacity: 0; }
+       }
+       @keyframes connectionPulse {
+           0%, 100% { opacity: 0; }
+           50% { opacity: 1; }
+       }
+       @keyframes floatChart {
+           0%, 100% { transform: translateY(0) rotate(0deg); }
+           33% { transform: translateY(-30px) rotate(120deg); }
+           66% { transform: translateY(15px) rotate(240deg); }
+       }
+       /* Matrix Rain Effect */
+       .matrix-rain {
+           position: fixed;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 100%;
+           z-index: -1;
+           opacity: 0.1;
+           pointer-events: none;
+       }
+       .matrix-column {
+           position: absolute;
+           top: -100%;
+           font-family: monospace;
+           font-size: 14px;
+           color: #ff006e;
+           animation: matrixFall 10s linear infinite;
+       }
+       @keyframes matrixFall {
+           to { transform: translateY(100vh); }
+       }
+       /* Header */
+       header {
+           position: fixed;
+           top: 0;
+           width: 100%;
+           padding: 1rem 5%;
+           background: rgba(10, 10, 10, 0.9);
+           backdrop-filter: blur(20px);
+           border-bottom: 1px solid rgba(255, 0, 110, 0.3);
+           z-index: 1000;
+           transition: all 0.3s ease;
+       }
+       nav {
+           display: flex;
+           justify-content: space-between;
+           align-items: center;
+       }
+       .logo {
+           font-size: 2.2rem;
+           font-weight: bold;
+           background: linear-gradient(45deg, #ff006e, #8338ec);
+           -webkit-background-clip: text;
+           -webkit-text-fill-color: transparent;
+           background-clip: text;
+           animation: logoGlow 3s ease-in-out infinite alternate;
+       }
+       @keyframes logoGlow {
+           from { filter: drop-shadow(0 0 10px rgba(255, 0, 110, 0.5)); }
+           to { filter: drop-shadow(0 0 20px rgba(131, 56, 236, 0.8)); }
+       }
+       .nav-links {
+           display: flex;
+           list-style: none;
+           gap: 2rem;
+       }
+       .nav-links a {
+           color: white;
+           text-decoration: none;
+           transition: all 0.3s ease;
+           position: relative;
+           padding: 0.5rem 1rem;
+           border-radius: 25px;
+       }
+       .nav-links a:hover {
+           background: rgba(255, 0, 110, 0.2);
+           transform: translateY(-2px);
+           box-shadow: 0 5px 15px rgba(255, 0, 110, 0.3);
+       }
+       /* Hero Section */
+     .hero {
+  min-height: min(88vh, 760px);   /* better than fixed 100vh */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 5%;
+  position: relative;
+}
+       .hero-content h1 {
+           font-size: 4.5rem;
+           margin-bottom: 1.5rem;
+           background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff);
+           -webkit-background-clip: text;
+           -webkit-text-fill-color: transparent;
+           background-clip: text;
+           opacity: 0;
+           animation: heroSlideUp 1.5s ease 0.5s forwards;
+       }
+       .hero-content .subtitle {
+           font-size: 1.8rem;
+           margin-bottom: 1rem;
+           opacity: 0;
+           animation: heroSlideUp 1.5s ease 1s forwards;
+           color: #ff006e;
+       }
+       .hero-content p {
+           font-size: 1.3rem;
+           margin-bottom: 2.5rem;
+           opacity: 0;
+           animation: heroSlideUp 1.5s ease 1.5s forwards;
+           max-width: 800px;
+           margin-left: auto;
+           margin-right: auto;
+       }
+       .hero-buttons {
+           display: flex;
+           gap: 1.5rem;
+           justify-content: center;
+           flex-wrap: wrap;
+           opacity: 0;
+           animation: heroSlideUp 1.5s ease 2s forwards;
+       }
+       .cta-button {
+           display: inline-block;
+           padding: 1.2rem 2.5rem;
+           background: linear-gradient(45deg, #ff006e, #8338ec);
+           border: none;
+           border-radius: 50px;
+           color: white;
+           text-decoration: none;
+           font-size: 1.1rem;
+           font-weight: bold;
+           transition: all 0.4s ease;
+           position: relative;
+           overflow: hidden;
+           cursor: pointer;
+       }
+       .cta-button.secondary {
+           background: transparent;
+           border: 2px solid #ff006e;
+       }
+       .cta-button:hover {
+           transform: translateY(-3px) scale(1.05);
+           box-shadow: 0 15px 40px rgba(255, 0, 110, 0.4);
+       }
+       .cta-button::before {
+           content: '';
+           position: absolute;
+           top: 0;
+           left: -100%;
+           width: 100%;
+           height: 100%;
+           background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+           transition: left 0.6s ease;
+       }
+       .cta-button:hover::before {
+           left: 100%;
+       }
+       @keyframes heroSlideUp {
+           from {
+               transform: translateY(60px);
+               opacity: 0;
+           }
+           to {
+               transform: translateY(0);
+               opacity: 1;
+           }
+       }
+       /* Services Section */
+       .services {
+           padding: 8rem 5%;
+           background: rgba(0, 0, 0, 0.3);
+           backdrop-filter: blur(10px);
+       }
+       .section-title {
+           font-size: 3.5rem;
+           text-align: center;
+           margin-bottom: 1rem;
+           background: linear-gradient(45deg, #ff006e, #8338ec);
+           -webkit-background-clip: text;
+           -webkit-text-fill-color: transparent;
+           background-clip: text;
+       }
+       .section-subtitle {
+           text-align: center;
+           font-size: 1.3rem;
+           margin-bottom: 4rem;
+           color: #ff006e;
+       }
+       .services-grid {
+           display: grid;
+           grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+           gap: 2.5rem;
+           max-width: 1400px;
+           margin: 0 auto;
+       }
+       .service-card {
+           background: rgba(255, 0, 110, 0.1);
+           backdrop-filter: blur(15px);
+           padding: 3rem;
+           border-radius: 25px;
+           border: 1px solid rgba(255, 0, 110, 0.3);
+           transition: all 0.4s ease;
+           position: relative;
+           overflow: hidden;
+       }
+       .service-card::before {
+           content: '';
+           position: absolute;
+           top: 0;
+           left: -100%;
+           width: 100%;
+           height: 100%;
+           background: linear-gradient(90deg, transparent, rgba(255, 0, 110, 0.1), transparent);
+           transition: left 0.8s ease;
+       }
+       .service-card:hover::before {
+           left: 100%;
+       }
+       .service-card:hover {
+           transform: translateY(-15px) rotateX(5deg);
+           box-shadow: 0 25px 50px rgba(255, 0, 110, 0.3);
+           border-color: #ff006e;
+       }
+       .service-icon {
+           font-size: 4rem;
+           margin-bottom: 1.5rem;
+           display: block;
+           animation: iconPulse 3s infinite;
+       }
+       @keyframes iconPulse {
+           0%, 100% { transform: scale(1); }
+           50% { transform: scale(1.1); }
+       }
+       .service-card h3 {
+           font-size: 1.8rem;
+           margin-bottom: 1.5rem;
+           color: #ff006e;
+           position: relative;
+           z-index: 1;
+       }
+       .service-card p {
+           position: relative;
+           z-index: 1;
+           line-height: 1.8;
+           font-size: 1.1rem;
+       }
+       .service-card .tech-stack {
+           margin-top: 1.5rem;
+           padding-top: 1.5rem;
+           border-top: 1px solid rgba(255, 0, 110, 0.3);
+       }
+       .tech-tag {
+           display: inline-block;
+           padding: 0.3rem 0.8rem;
+           background: rgba(255, 0, 110, 0.2);
+           border-radius: 15px;
+           font-size: 0.9rem;
+           margin: 0.2rem;
+           border: 1px solid rgba(255, 0, 110, 0.4);
+       }
+       /* About Section */
+       .about {
+           padding: 8rem 5%;
+           text-align: center;
+       }
+       .about p {
+           font-size: 1.4rem;
+           max-width: 1000px;
+           margin: 0 auto 3rem;
+           line-height: 2;
+       }
+       .stats-grid {
+           display: grid;
+           grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+           gap: 2rem;
+           max-width: 800px;
+           margin: 0 auto;
+       }
+       .stat-card {
+           text-align: center;
+           padding: 2rem;
+           background: rgba(255, 0, 110, 0.1);
+           border-radius: 20px;
+           border: 1px solid rgba(255, 0, 110, 0.3);
+           transition: all 0.3s ease;
+       }
+       .stat-card:hover {
+           transform: translateY(-10px);
+           box-shadow: 0 15px 30px rgba(255, 0, 110, 0.2);
+       }
+       .stat-number {
+           font-size: 3rem;
+           font-weight: bold;
+           color: #ff006e;
+           margin-bottom: 0.5rem;
+           counter-reset: number;
+           animation: countUp 3s ease-out;
+       }
+       .stat-label {
+           font-size: 1.1rem;
+           color: #ccc;
+       }
+       /* Portfolio Section */
+       .portfolio {
+           padding: 8rem 5%;
+           background: rgba(0, 0, 0, 0.3);
+           backdrop-filter: blur(10px);
+       }
+       .portfolio-grid {
+           display: grid;
+           grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+           gap: 3rem;
+           max-width: 1400px;
+           margin: 0 auto;
+       }
+       .portfolio-card {
+           background: rgba(255, 0, 110, 0.05);
+           border-radius: 25px;
+           overflow: hidden;
+           border: 1px solid rgba(255, 0, 110, 0.2);
+           transition: all 0.4s ease;
+           position: relative;
+       }
+       .portfolio-card:hover {
+           transform: scale(1.05);
+           box-shadow: 0 20px 40px rgba(255, 0, 110, 0.3);
+       }
+       .portfolio-image {
+           height: 200px;
+           background: linear-gradient(45deg, #ff006e, #8338ec);
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           font-size: 4rem;
+           position: relative;
+           overflow: hidden;
+       }
+       .portfolio-image::before {
+           content: '';
+           position: absolute;
+           top: 0;
+           left: -100%;
+           width: 100%;
+           height: 100%;
+           background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+           animation: shimmer 3s infinite;
+       }
+       @keyframes shimmer {
+           0% { left: -100%; }
+           100% { left: 100%; }
+       }
+       .portfolio-content {
+           padding: 2rem;
+       }
+       .portfolio-card h3 {
+           font-size: 1.6rem;
+           margin-bottom: 1rem;
+           color: #ff006e;
+       }
+       /* Contact Section */
+       .contact {
+           padding: 8rem 5%;
+           text-align: center;
+       }
+       .contact-form {
+           max-width: 600px;
+           margin: 0 auto;
+       }
+       .form-group {
+           margin-bottom: 2rem;
+           text-align: left;
+       }
+       .form-group input,
+       .form-group textarea,
+       .form-group select {
+           width: 100%;
+           padding: 1.2rem;
+           background: rgba(255, 0, 110, 0.1);
+           border: 2px solid rgba(255, 0, 110, 0.3);
+           border-radius: 15px;
+           color: white;
+           font-size: 1rem;
+           transition: all 0.3s ease;
+       }
+       .form-group input::placeholder,
+       .form-group textarea::placeholder {
+           color: rgba(255, 255, 255, 0.7);
+       }
+       .form-group input:focus,
+       .form-group textarea:focus,
+       .form-group select:focus {
+           outline: none;
+           border-color: #ff006e;
+           box-shadow: 0 0 20px rgba(255, 0, 110, 0.3);
+           transform: translateY(-2px);
+       }
+       /* Footer */
+       footer {
+           background: rgba(0, 0, 0, 0.8);
+           padding: 3rem 5%;
+           text-align: center;
+           border-top: 1px solid rgba(255, 0, 110, 0.3);
+       }
+       .footer-content {
+           display: grid;
+           grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+           gap: 2rem;
+           max-width: 1200px;
+           margin: 0 auto 2rem;
+       }
+       .footer-section h3 {
+           color: #ff006e;
+           margin-bottom: 1rem;
+       }
+       .social-links a {
+           color: white;
+           font-size: 1.5rem;
+           margin: 0 1rem;
+           transition: all 0.3s ease;
+       }
+       .social-links a:hover {
+           color: #ff006e;
+           transform: translateY(-3px);
+       }
+       /* Responsive Design */
+       @media (max-width: 768px) {
+           .hero-content h1 {
+               font-size: 3rem;
+           }
+           .hero-content .subtitle {
+               font-size: 1.4rem;
+           }
+           .hero-content p {
+               font-size: 1.1rem;
+           }
+           .nav-links {
+               display: none;
+           }
+           .section-title {
+               font-size: 2.5rem;
+           }
+           .hero-buttons {
+               flex-direction: column;
+               align-items: center;
+           }
+           .services-grid,
+           .portfolio-grid {
+               grid-template-columns: 1fr;
+           }
+             /* extra mobile tuning */
+  .hero-content h1{ font-size: 2.4rem; line-height: 1.15; }
+  .hero-content .subtitle{ font-size: 1.1rem; }
+  .hero-content p{ font-size: 1rem; }
+  .hero-buttons{ gap: 0.9rem; }
+
+  .services, .portfolio, .about, .contact { padding: var(--section-py-mobile) 5%; }
+  .section-title{ font-size: 2.2rem; margin-bottom: 0.75rem; }
+  .section-subtitle{ margin-bottom: 2rem; }
+
+  .neural-network, .floating-charts, .matrix-rain { opacity: 0.08; }
+  .portfolio-image { height: 160px; }
+
+       }
+       /* Scroll animations */
+       .animate-on-scroll {
+           opacity: 0;
+           transform: translateY(50px);
+           transition: all 0.8s ease;
+       }
+       .animate-on-scroll.animated {
+           opacity: 1;
+           transform: translateY(0);
+       }
+       /* Loading Animation */
+       .loading-overlay {
+           position: fixed;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 100%;
+           background: #0a0a0a;
+           z-index: 9999;
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           transition: opacity 0.5s ease;
+       }
+       .loading-spinner {
+           width: 60px;
+           height: 60px;
+           border: 3px solid rgba(255, 0, 110, 0.3);
+           border-top: 3px solid #ff006e;
+           border-radius: 50%;
+           animation: spin 1s linear infinite;
+       }
+       @keyframes spin {
+           0% { transform: rotate(0deg); }
+           100% { transform: rotate(360deg); }
+          
+       }
+       /* === Softer colors for 3 hero items (logo, H1, subtitle) === */
+
+/* 1) Header logo: "Yingg Software" */
+header .logo{
+  background: none;                /* remove the bright gradient */
+  -webkit-text-fill-color: #e6e8ef;/* soft light gray-blue */
+  color: #e6e8ef;
+  filter: none;                    /* stop the glow */
+  text-shadow: none;
+}
+
+/* 2) H1: "Business Intelligence Excellence" */
+.hero .hero-content h1{
+  background: none;                /* remove bright gradient */
+  -webkit-text-fill-color: #d6e4ff;/* calm soft blue */
+  color: #d6e4ff;
+}
+
+/* 3) Subtitle: "Data-Driven Solutions • Analytics Mastery • Strategic Insights" */
+.hero .subtitle{
+  color: #a5b4fc;                  /* muted periwinkle */
+  opacity: 0.95;                   /* a touch softer */
+}
+
+select,
+select option {
+  background-color: #111;   /* black background */
+  color: #fff;              /* white text */
+}.contact-info{
+  max-width:640px;
+  margin:0 auto 2rem;
+  text-align:center;
+  padding:1.2rem 0;
+  border-top:1px solid rgba(255,0,110,.25);
+  border-bottom:1px solid rgba(255,0,110,.25);
+}
+.contact-info h3{
+  font-size:1.8rem;
+  color:#3a86ff;
+  margin:0 0 .75rem;
+}
+.contact-info p{
+  margin:.35rem 0;
+  font-size:1.15rem;
+}
+.contact-info a{
+  color:#e6e8ef;
+  text-decoration:none;
+}
+.contact-info a:hover{ color:#ff006e; }
+/* === spacing overrides === */
+.services, .portfolio, .about, .contact {
+  padding: var(--section-py) 5%;
+}
+
+/* === grid overrides (smaller min widths, smaller gaps) === */
+.services-grid {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* was 350px */
+  gap: 1.6rem;                 /* was 2.5rem */
+  max-width: 1200px;           /* was 1400px */
+}
+
+.portfolio-grid {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* was 400px */
+  gap: 1.8rem;                 /* was 3rem */
+  max-width: 1200px;           /* was 1400px */
+}
+
+/* tighten card paddings a touch */
+.service-card { padding: 2rem; }
+.portfolio-content { padding: 1.5rem; }
+
+/* make background layers non-interactive & hint perf */
+.background-container,
+.neural-network,
+.floating-charts,
+.matrix-rain {
+  pointer-events: none;
+  will-change: transform;
+}
+
+</style>
+</head>
+<body>
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loading">
+<div class="loading-spinner"></div>
+</div>
+<!-- Background Animations -->
+<div class="background-container"></div>
+<div class="neural-network" id="neuralNetwork"></div>
+<div class="floating-charts" id="floatingCharts"></div>
+<div class="matrix-rain" id="matrixRain"></div>
+<!-- Header -->
+<header>
+<nav>
+<div class="logo">Yingg Software</div>
+<ul class="nav-links">
+<li><a href="#home">Home</a></li>
+<li><a href="#services">BI Services</a></li>
+<li><a href="#portfolio">Projects</a></li>
+<li><a href="#about">About</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+</nav>
+</header>
+<!-- Hero Section -->
+<section id="home" class="hero">
+<div class="hero-content">
+<h1>Business Intelligence Excellence</h1>
+<div class="subtitle">Data-Driven Solutions • Analytics Mastery • Strategic Insights</div>
+<p>Transform your business with cutting-edge BI analytics, advanced data visualization, and intelligent reporting solutions that drive strategic decision-making and accelerate growth.</p>
+<div class="hero-buttons">
+<a href="#services" class="cta-button">Explore BI Solutions</a>
+<a href="#portfolio" class="cta-button secondary">View Our Projects</a>
+</div>
+</div>
+</section>
+<!-- Services Section -->
+<section id="services" class="services">
+<h2 class="section-title animate-on-scroll">BI Analytics Services</h2>
+<p class="section-subtitle animate-on-scroll">Comprehensive Business Intelligence Solutions</p>
+<div class="services-grid">
+<div class="service-card animate-on-scroll">
+<span class="service-icon">📊</span>
+<h3>Advanced Data Analytics</h3>
+<p>Comprehensive data analysis using machine learning algorithms, predictive modeling, and statistical analysis to uncover hidden patterns and actionable business insights.</p>
+<div class="tech-stack">
+<span class="tech-tag">Python</span>
+<span class="tech-tag">R</span>
+<span class="tech-tag">SQL</span>
+<span class="tech-tag">Tableau</span>
+<span class="tech-tag">Power BI</span>
+</div>
+</div>
+<div class="service-card animate-on-scroll">
+<span class="service-icon">📈</span>
+<h3>Interactive Dashboards</h3>
+<p>Custom-built interactive dashboards with real-time data visualization, KPI monitoring, and executive reporting for data-driven decision making across all business levels.</p>
+<div class="tech-stack">
+<span class="tech-tag">Tableau</span>
+<span class="tech-tag">Power BI</span>
+<span class="tech-tag">Qlik Sense</span>
+<span class="tech-tag">D3.js</span>
+<span class="tech-tag">Plotly</span>
+</div>
+</div>
+<div class="service-card animate-on-scroll">
+<span class="service-icon">📊📈️</span>
+<h3>Data Warehouse Solutions</h3>
+<p>Design and implementation of scalable data warehouses, ETL processes, and data lakes for centralized data management and high-performance analytics.</p>
+<div class="tech-stack">
+<span class="tech-tag">AWS</span>
+<span class="tech-tag">Azure</span>
+<span class="tech-tag">Snowflake</span>
+<span class="tech-tag">Apache Spark</span>
+<span class="tech-tag">SSIS</span>
+</div>
+</div>
+<div class="service-card animate-on-scroll">
+<span class="service-icon">🤖</span>
+<h3>AI-Powered Insights</h3>
+<p>Machine learning models and AI algorithms for predictive analytics, customer segmentation, demand forecasting, and automated business intelligence.</p>
+<div class="tech-stack">
+<span class="tech-tag">TensorFlow</span>
+<span class="tech-tag">PyTorch</span>
+<span class="tech-tag">Scikit-learn</span>
+<span class="tech-tag">Azure ML</span>
+<span class="tech-tag">AWS SageMaker</span>
+</div>
+</div>
+<div class="service-card animate-on-scroll">
+<span class="service-icon">🔄</span>
+<h3>ETL & Data Integration</h3>
+<p>Robust ETL pipelines, data integration from multiple sources, data quality management, and automated data processing workflows for seamless analytics.</p>
+<div class="tech-stack">
+<span class="tech-tag">Apache Airflow</span>
+<span class="tech-tag">Informatica</span>
+<span class="tech-tag">Talend</span>
+<span class="tech-tag">SSIS</span>
+<span class="tech-tag">Kafka</span>
+</div>
+</div>
+<div class="service-card animate-on-scroll">
+<span class="service-icon">📋</span>
+<h3>Executive Reporting</h3>
+<p>Strategic reporting solutions with automated report generation, executive dashboards, and performance scorecards for C-level decision making and board presentations.</p>
+<div class="tech-stack">
+<span class="tech-tag">SSRS</span>
+<span class="tech-tag">Crystal Reports</span>
+<span class="tech-tag">Power BI</span>
+<span class="tech-tag">Tableau</span>
+<span class="tech-tag">Excel</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Portfolio Section -->
+<section id="portfolio" class="portfolio">
+<h2 class="section-title animate-on-scroll">Featured BI Projects</h2>
+<p class="section-subtitle animate-on-scroll">Transformative Analytics Solutions</p>
+<div class="portfolio-grid">
+<div class="portfolio-card animate-on-scroll">
+<div class="portfolio-image">📊</div>
+<div class="portfolio-content">
+<h3>Retail Analytics Platform</h3>
+<p>End-to-end BI solution for a retail chain with real-time sales analytics, inventory optimization, and customer behavior analysis. Increased revenue by 25% through data-driven insights.</p>
+<div class="tech-stack">
+<span class="tech-tag">Power BI</span>
+<span class="tech-tag">Azure SQL</span>
+<span class="tech-tag">SSIS</span>
+</div>
+</div>
+</div>
+<div class="portfolio-card animate-on-scroll">
+<div class="portfolio-image">📈</div>
+<div class="portfolio-content">
+<h3>Financial Dashboard Suite</h3>
+<p>Comprehensive financial reporting and analytics platform with automated P&L statements, budget tracking, and predictive financial modeling for a banking institution.</p>
+<div class="tech-stack">
+<span class="tech-tag">Tableau</span>
+<span class="tech-tag">Oracle</span>
+<span class="tech-tag">Python</span>
+</div>
+</div>
+</div>
+<div class="portfolio-card animate-on-scroll">
+<div class="portfolio-image">🏭</div>
+<div class="portfolio-content">
+<h3>Manufacturing Intelligence</h3>
+<p>IoT-integrated manufacturing analytics with real-time production monitoring, quality control dashboards, and predictive maintenance analytics reducing downtime by 40%.</p>
+<div class="tech-stack">
+<span class="tech-tag">Qlik Sense</span>
+<span class="tech-tag">IoT Hub</span>
+<span class="tech-tag">Machine Learning</span>
+</div>
+</div>
+</div>
+<div class="portfolio-card animate-on-scroll">
+<div class="portfolio-image">🏥</div>
+<div class="portfolio-content">
+<h3>Healthcare Analytics</h3>
+<p>Patient analytics platform with clinical data visualization, treatment outcome analysis, and operational efficiency dashboards for a multi-hospital healthcare system.</p>
+<div class="tech-stack">
+<span class="tech-tag">Power BI</span>
+<span class="tech-tag">SQL Server</span>
+<span class="tech-tag">R</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- About Section -->
+<section id="about" class="about">
+<h2 class="section-title animate-on-scroll">About Yingg Software Solution</h2>
+<p class="animate-on-scroll">
+           We are a specialized Business Intelligence and Analytics company dedicated to transforming data into strategic business value.
+           With deep expertise in advanced analytics, data visualization, and business intelligence platforms, we empower organizations to make data-driven decisions that drive growth and operational excellence.
+</p>
+<div class="stats-grid">
+<div class="stat-card animate-on-scroll">
+<div class="stat-number">50+</div>
+<div class="stat-label">BI Projects Delivered</div>
+</div>
+<div class="stat-card animate-on-scroll">
+<div class="stat-number">10+</div>
+<div class="stat-label">Happy Clients</div>
+</div>
+<div class="stat-card animate-on-scroll">
+<div class="stat-number">2+</div>
+<div class="stat-label">Years Experience</div>
+</div>
+<div class="stat-card animate-on-scroll">
+<div class="stat-number">99%</div>
+<div class="stat-label">Client Satisfaction</div>
+</div>
+</div>
+</section>
+<!-- Contact Section -->
+<section id="contact" class="contact">
+<h2 class="section-title animate-on-scroll">Start Your BI Journey</h2>
+<p class="section-subtitle animate-on-scroll">Let's discuss your analytics requirements</p>
+
+<form class="contact-form animate-on-scroll">
+<div class="form-group">
+<input type="text" placeholder="Your Name" required>
+</div>
+<div class="form-group">
+<input type="email" placeholder="Your Email" required>
+</div>
+<div class="form-group">
+<input type="text" placeholder="Company Name" required>
+</div>
+<div class="form-group">
+<select required>
+<option value="">Select Service</option>
+<option value="dashboard">Interactive Dashboards</option>
+<option value="analytics">Data Analytics</option>
+<option value="warehouse">Data Warehouse</option>
+<option value="ai">AI-Powered Insights</option>
+<option value="etl">ETL & Integration</option>
+<option value="reporting">Executive Reporting</option>
+<option value="reporting">Data Warehousing Design & implementation</option>
+</select>
+
+</div>
+<div class="form-group">
+<textarea rows="5" placeholder="Describe your BI requirements and current data challenges..." required></textarea>
+</div>
+<button type="submit" class="cta-button">Get Free BI Consultation</button>
+<!-- Contact Info -->
+<div class="contact-info">
+  <h3>Contact Info</h3>
+  <p>📞 <a href="tel:+918888943161">+91 88889 43161</a></p>
+  <p>📍 Baner, Pune, Maharashtra</p>
+</div>
+
+</form>
+</section>
+<!-- Footer -->
+<footer>
+<div class="footer-content">
+<div class="footer-section">
+<h3>Yingg Software Solution</h3>
+<p>Transforming businesses through intelligent data analytics and cutting-edge BI solutions.</p>
+</div>
+<div class="footer-section">
+<h3>BI Services</h3>
+<p>Data Analytics • Dashboards • Data Warehousing • AI Insights • ETL Solutions • Executive Reporting</p>
+</div>
+<div class="footer-section">
+<h3>Technologies</h3>
+<p>Power BI • Tableau • Python • SQL • AWS • Snowflake • Azure • Machine Learning • Big Data </p>
+</div>
+</div>
+<div class="social-links">
+<a href="#" aria-label="LinkedIn">🔗</a>
+<a href="#" aria-label="GitHub">💻</a>
+<a href="#" aria-label="Email">📧</a>
+</div>
+<p>&copy; 2025 Yingg Software Solution Pvt Ltd. All rights reserved.</p>
+</footer>
+<script>
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+       // Remove loading overlay
+      document.addEventListener('DOMContentLoaded', function () {
+    const loading = document.getElementById('loading');
+    if (loading) loading.remove();
+    document.body.classList.add('loaded');
+});
+       // Create neural network animation
+       function createNeuralNetwork() {
+           const network = document.getElementById('neuralNetwork');
+           // Create data nodes
+  const nodeCount = isMobile ? 14 : 30;
+  for (let i = 0; i < nodeCount; i++) {
+    const node = document.createElement('div');
+    node.className = 'data-node';
+    node.style.left = Math.random() * 100 + '%';
+    node.style.top = Math.random() * 100 + '%';
+    node.style.animationDelay = Math.random() * 8 + 's';
+    node.style.animationDuration = (5 + Math.random() * 10) + 's';
+    network.appendChild(node);
+  }
+  // Create connections
+  const connCount = isMobile ? 8 : 20;
+  for (let i = 0; i < connCount; i++) {
+    const connection = document.createElement('div');
+    connection.className = 'data-connection';
+    connection.style.left = Math.random() * 100 + '%';
+    connection.style.top = Math.random() * 100 + '%';
+    connection.style.width = (50 + Math.random() * 200) + 'px';
+    connection.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)';
+    connection.style.animationDelay = Math.random() * 4 + 's';
+    network.appendChild(connection);
+  }
+}
+       // Create floating chart elements
+       function createFloatingCharts() {
+           const charts = document.getElementById('floatingCharts');
+           const chartCount = isMobile ? 6 : 15;
+for (let i = 0; i < chartCount; i++) {
+  const chart = document.createElement('div');
+  chart.className = 'chart-element';
+  chart.style.left = Math.random() * 100 + '%';
+  chart.style.top = Math.random() * 100 + '%';
+  chart.style.animationDelay = Math.random() * 15 + 's';
+  chart.style.animationDuration = (10 + Math.random() * 10) + 's';
+  charts.appendChild(chart);
+}
+       }
+       // Create matrix rain effect
+       function createMatrixRain() {
+           const colCount = isMobile ? 10 : 20;
+for (let i = 0; i < colCount; i++) {
+  const column = document.createElement('div');
+  column.className = 'matrix-column';
+  column.style.left = Math.random() * 100 + '%';
+  column.style.animationDelay = Math.random() * 10 + 's';
+  column.style.animationDuration = (isMobile ? 9 : 8) + Math.random() * 4 + 's';
+  let text = '';
+  const rows = isMobile ? 14 : 20;
+  for (let j = 0; j < rows; j++) {
+    text += characters.charAt(Math.floor(Math.random() * characters.length)) + '<br>';
+  }
+  column.innerHTML = text;
+  matrix.appendChild(column);
+}
+       }
+       // Smooth scrolling for navigation links
+       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+           anchor.addEventListener('click', function (e) {
+               e.preventDefault();
+               const target = document.querySelector(this.getAttribute('href'));
+               if (target) {
+                   target.scrollIntoView({
+                       behavior: 'smooth',
+                       block: 'start'
+                   });
+               }
+           });
+       });
+       // Animate elements on scroll
+       function animateOnScroll() {
+           const elements = document.querySelectorAll('.animate-on-scroll');
+           elements.forEach(element => {
+               const elementTop = element.getBoundingClientRect().top;
+               const windowHeight = window.innerHeight;
+               if (elementTop < windowHeight * 0.8) {
+                   element.classList.add('animated');
+               }
+           });
+       }
+       // Header background on scroll
+       function updateHeader() {
+           const header = document.querySelector('header');
+           const scrollY = window.scrollY;
+           if (scrollY > 100) {
+               header.style.background = 'rgba(10, 10, 10, 0.95)';
+               header.style.backdropFilter = 'blur(25px)';
+           } else {
+               header.style.background = 'rgba(10, 10, 10, 0.9)';
+               header.style.backdropFilter = 'blur(20px)';
+           }
+       }
+       // Counter animation for stats
+       function animateCounters() {
+           const counters = document.querySelectorAll('.stat-number');
+           counters.forEach(counter => {
+               const target = parseInt(counter.textContent.replace(/[^\d]/g, ''));
+               const increment = target / 100;
+               let current = 0;
+               const timer = setInterval(() => {
+                   current += increment;
+                   if (current >= target) {
+                       counter.textContent = counter.textContent.replace(/\d+/, target);
+                       clearInterval(timer);
+                   } else {
+                       counter.textContent = counter.textContent.replace(/\d+/, Math.floor(current));
+                   }
+               }, 20);
+           });
+       }
+       // Form submission with validation
+       document.querySelector('.contact-form').addEventListener('submit', function(e) {
+           e.preventDefault();
+           // Simple validation
+           const inputs = this.querySelectorAll('input[required], textarea[required], select[required]');
+           let isValid = true;
+           inputs.forEach(input => {
+               if (!input.value.trim()) {
+                   isValid = false;
+                   input.style.borderColor = '#ff4757';
+               } else {
+                   input.style.borderColor = 'rgba(255, 0, 110, 0.3)';
+               }
+           });
+           if (isValid) {
+               // Show success message
+               alert('Thank you for your inquiry! Our BI experts will contact you within 24 hours to discuss your analytics requirements.');
+               this.reset();
+           } else {
+               alert('Please fill in all required fields.');
+           }
+       });
+       // Parallax effect for background
+       function handleParallax() {
+  if (isMobile) return;  // skip parallax on mobile
+  const scrolled = window.pageYOffset;
+  const parallaxElements = document.querySelectorAll('.background-container, .neural-network, .floating-charts');
+  parallaxElements.forEach(element => {
+    const speed = 0.35;
+    element.style.transform = `translateY(${scrolled * speed}px)`;
+  });
+}
+
+       // Event listeners
+       window.addEventListener('scroll', () => {
+           animateOnScroll();
+           updateHeader();
+           handleParallax();
+       });
+       // Intersection Observer for counter animation
+       const observerOptions = {
+           threshold: 0.5,
+           rootMargin: '0px 0px -50px 0px'
+       };
+       const observer = new IntersectionObserver((entries) => {
+           entries.forEach(entry => {
+               if (entry.isIntersecting && entry.target.classList.contains('stats-grid')) {
+                   animateCounters();
+                   observer.unobserve(entry.target);
+               }
+           });
+       }, observerOptions);
+       document.querySelectorAll('.stats-grid').forEach(el => {
+           observer.observe(el);
+       });
+       // Initialize animations
+       createNeuralNetwork();
+       createFloatingCharts();
+       createMatrixRain();
+       animateOnScroll();
+       // Preloader for better UX
+       document.addEventListener('DOMContentLoaded', function() {
+           const style = document.createElement('style');
+           style.textContent = `
+               body { opacity: 0; transition: opacity 0.5s ease; }
+               body.loaded { opacity: 1; }
+           `;
+           document.head.appendChild(style);
+           setTimeout(() => {
+               document.body.classList.add('loaded');
+           }, 100);
+       });
+       // Dynamic background color based on scroll
+       let lastScrollTop = 0;
+       window.addEventListener('scroll', function() {
+           const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+           const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+           const scrollPercentage = scrollTop / maxScroll;
+           const bgContainer = document.querySelector('.background-container');
+           const hue = 300 + (scrollPercentage * 60); // Shifts from pink to purple to blue
+           bgContainer.style.filter = `hue-rotate(${hue}deg) brightness(${1 + scrollPercentage * 0.2})`;
+           lastScrollTop = scrollTop;
+       });
+       // Add typing effect to hero subtitle
+       function typeWriter(element, text, speed = 50) {
+           let i = 0;
+           element.innerHTML = '';
+           function type() {
+               if (i < text.length) {
+                   element.innerHTML += text.charAt(i);
+                   i++;
+                   setTimeout(type, speed);
+               }
+           }
+           type();
+       }
+       // Initialize typing effect after hero animation
+       setTimeout(() => {
+           const subtitle = document.querySelector('.hero-content .subtitle');
+           if (subtitle) {
+               const originalText = subtitle.textContent;
+               typeWriter(subtitle, originalText, 30);
+           }
+       }, 2500);
+</script>
+</body>
+</html>
