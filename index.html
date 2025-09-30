@@ -242,7 +242,12 @@
   background: radial-gradient(1200px 600px at 10% -10%, rgba(19,26,43,.5) 20%, transparent 55%),
               radial-gradient(900px 600px at 110% 10%, rgba(14,22,38,.5) 10%, transparent 60%);
 }
-#netCanvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+#netCanvas{
+  position:absolute; inset:0; width:100%; height:100%; display:block;
+  z-index: 2;           /* bond ABOVE images/videos */
+  pointer-events:none;  /* don't block clicks */
+}
+
 .hero-slides{
   position:absolute; inset:0; overflow:hidden; mix-blend-mode:screen; opacity:.45;
 }
@@ -255,18 +260,21 @@
 .hero-slides img:nth-child(1){ animation-delay: 0s; }
 .hero-slides img:nth-child(2){ animation-delay: 6s; }
 .hero-slides img:nth-child(3){ animation-delay: 12s; }
-
-/* hero background video */
+/* hero background video (under the bond) */
 .hero-video{
   position:absolute; inset:0; width:100%; height:100%;
-  object-fit:cover; opacity:0; /* start hidden behind images */
+  object-fit:cover; opacity:0;        /* start hidden behind images */
   transition: opacity .8s ease;
-  mix-blend-mode:screen; /* match look of images */
+  mix-blend-mode:screen;              /* match the image look */
   pointer-events:none;
+  z-index:1;                          /* below the bond (z=2) */
 }
-.hero-video.show{ opacity:.9; } /* visible after fade */
-.hero-slides{ transition: opacity .8s ease; } /* enable fade out */
-.hero-slides.hide{ opacity:0; }               /* used by JS */
+/* keep same blend and allow fading images out */
+.hero-slides{ transition: opacity .8s ease; z-index:1; }
+.hero-slides.hide{ opacity:0; }
+
+/* when we reveal the video */
+.hero-video.show{ opacity:.9; }
 
 @keyframes heroFade{
   0%{ opacity:0; transform:scale(1.08); }
@@ -309,7 +317,6 @@
   <div class="hero-bg">
     <canvas id="netCanvas" aria-hidden="true"></canvas>
 <video class="hero-video" muted playsinline preload="auto"></video>
-
     <!-- Optional background slideshow -->
     <div class="hero-slides">
       <img src="/bi2.jpg" alt="" />
@@ -742,6 +749,38 @@
   step();
 })();
 
+/* ===== hero background: show images 5s, keep bond, then loop v1..v6 ===== */
+(function heroBgPlaylist(){
+  const video = document.querySelector('.hero-video');
+  const slides = document.querySelector('.hero-slides');
+  if(!video || !slides) return;
+
+  const files = ['v1','v2','v3','v4','v5','v6'].map(n => `/${n}.mp4`);
+  let i = 0;
+
+  function playNext(){
+    const src = files[i % files.length];
+    i++;
+    while (video.firstChild) video.removeChild(video.firstChild);
+    const s = document.createElement('source');
+    s.src = src;
+    s.type = 'video/mp4';
+    video.appendChild(s);
+    video.load();
+    const start = video.play?.() || Promise.resolve();
+    start.catch(()=>{});
+    video.onended = playNext;
+  }
+
+  const FIRST_DELAY_MS = 5000;
+  setTimeout(()=>{
+    slides.classList.add('hide');
+    video.classList.add('show');
+    playNext();
+  }, FIRST_DELAY_MS);
+})();
+
+
   /* ===== reveal on scroll + chart animations ===== */
   const io = new IntersectionObserver((entries)=>{
     entries.forEach(entry=>{
@@ -757,47 +796,6 @@
     });
   }, {threshold:.18});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-
-  /* ===== hero background: images first, then loop videos v1..v6 ===== */
-  (function heroBgPlaylist(){
-    const video = document.querySelector('.hero-video');
-    const slides = document.querySelector('.hero-slides');
-    if(!video || !slides) return;
-
-    // Your files: /v1.mp4 ... /v6.mp4 in site root
-    const files = ['v1','v2','v3','v4','v5','v6'].map(n => `/${n}.mp4`);
-    let i = 0;
-
-    function playNext(){
-      // safety: if file missing, skip to next
-      const src = files[i % files.length];
-      i++;
-
-      // Reset source cleanly (iOS needs this order)
-      while (video.firstChild) video.removeChild(video.firstChild);
-      const s = document.createElement('source');
-      s.src = src;
-      s.type = 'video/mp4';
-      video.appendChild(s);
-
-      // Start playback
-      video.load();
-      const start = video.play?.() || Promise.resolve();
-
-      start.catch(()=>{ /* autoplay blocked? keep images */ });
-
-      // When one video ends, play the next
-      video.onended = playNext;
-    }
-
-    // Show images first, then fade to video after ~9s
-    const FIRST_DELAY_MS = 9000; // keep your two images visible briefly
-    setTimeout(()=>{
-      slides.classList.add('hide');    // fade images out
-      video.classList.add('show');     // fade video in
-      playNext();
-    }, FIRST_DELAY_MS);
-  })();
 
   /* ===== subtitle rotator (typing effect) ===== */
   const subRotator = document.getElementById('subRotator');
