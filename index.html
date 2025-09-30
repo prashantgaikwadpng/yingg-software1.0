@@ -1,3 +1,4 @@
+this is latest without bi1 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -242,43 +243,6 @@
   background: radial-gradient(1200px 600px at 10% -10%, rgba(19,26,43,.5) 20%, transparent 55%),
               radial-gradient(900px 600px at 110% 10%, rgba(14,22,38,.5) 10%, transparent 60%);
 }
-/* Background video layer */
-.hero-video{
-  position:absolute; inset:0;
-  width:100%; height:100%;
-  object-fit:cover;
-  z-index:0;
-  opacity:.55; /* tune .45–.65 to taste */
-  filter: saturate(1.05) contrast(1.05) brightness(.95);
-}
-
-/* Keep canvas above video */
-#netCanvas{ z-index:1; }
-
-/* Optional gradient sweep for extra polish */
-.hero-bg::after{
-  content:"";
-  position:absolute; inset:-20% -10%;
-  background: linear-gradient(100deg, transparent 0% 40%, rgba(255,255,255,.07) 50%, transparent 60% 100%);
-  transform: translateX(-30%) rotate(2deg);
-  animation: heroSweep 9s ease-in-out infinite;
-  pointer-events:none; mix-blend-mode: screen;
-}
-@keyframes heroSweep{
-  0%  { transform: translateX(-30%) rotate(2deg); }
-  50% { transform: translateX(30%)  rotate(2deg); }
-  100%{ transform: translateX(-30%) rotate(2deg); }
-}
-
-/* Hide slideshow once video is ready */
-.hero-slides.hide{ display:none; }
-
-/* Respect reduced motion */
-@media (prefers-reduced-motion: reduce){
-  .hero-video{ display:none; }
-  .hero-bg::after{ display:none; }
-}
-
 #netCanvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
 .hero-slides{
   position:absolute; inset:0; overflow:hidden; mix-blend-mode:screen; opacity:.45;
@@ -292,6 +256,14 @@
 .hero-slides img:nth-child(1){ animation-delay: 0s; }
 .hero-slides img:nth-child(2){ animation-delay: 6s; }
 .hero-slides img:nth-child(3){ animation-delay: 12s; }
+
+.hero-video{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; opacity:.9;
+  filter:saturate(1.1) contrast(1.05);
+  z-index:0;
+}
+.hero-slides.hide{ opacity:0; transition:opacity .6s ease; }
 
 @keyframes heroFade{
   0%{ opacity:0; transform:scale(1.08); }
@@ -332,13 +304,8 @@
 
   <!-- ADVANCED HERO BACKGROUND -->
   <div class="hero-bg">
-    <!-- HERO BACKGROUND VIDEO -->
-<video class="hero-video" autoplay muted playsinline preload="auto" poster="/bi2.jpg"></video>
-  <!-- use any one of your v1..v6 files; change the name if you like -->
-  <source src="/v1.mp4" type="video/mp4"/>
-</video>
-
     <canvas id="netCanvas" aria-hidden="true"></canvas>
+<video class="hero-video" autoplay muted playsinline preload="auto" poster="/bi2.jpg"></video>
 
     <!-- Optional background slideshow -->
     <div class="hero-slides">
@@ -844,17 +811,7 @@
       ok && form.reset();
     });
   }
-  /* Hide image slideshow when background video is ready */
-(function(){
-  const vid = document.querySelector('.hero-video');
-  const slides = document.querySelector('.hero-slides');
-  if(!vid || !slides) return;
-  const hideSlides = () => slides.classList.add('hide');
-  vid.addEventListener('canplay', hideSlides, { once:true });
-  // fallback in case of delayed canplay on some mobiles
-  setTimeout(hideSlides, 4000);
-})();
-/* === Hero video playlist (v1..v6) === */
+  /* === Hero video playlist: v1..v6 === */
 (function(){
   const vid = document.querySelector('.hero-video');
   if(!vid) return;
@@ -863,31 +820,28 @@
   let i = 0;
 
   function playIndex(idx){
-    const src = `/${files[idx]}`;
-    // Safari-friendly: set src directly, then load + play
-    vid.src = src;
+    vid.src = `/${files[idx]}`;
     vid.load();
     const p = vid.play();
-    if (p && typeof p.catch === 'function') p.catch(()=>{ /* ignore autoplay race */ });
+    if (p && typeof p.catch === 'function') p.catch(()=>{});
   }
 
   // start first video
   playIndex(i);
 
-  // when one finishes, go to the next
+  // on end, go next
   vid.addEventListener('ended', () => {
     i = (i + 1) % files.length;
     playIndex(i);
   });
 
-  // keep slideshow hidden once video can play
+  // hide the image slideshow once video is ready
   const slides = document.querySelector('.hero-slides');
   const hideSlides = () => slides && slides.classList.add('hide');
   vid.addEventListener('canplay', hideSlides, { once:true });
-  setTimeout(hideSlides, 4000); // fallback
+  setTimeout(hideSlides, 4000); // fallback if canplay is slow
 })();
 
 </script>
 </body>
 </html>
-
