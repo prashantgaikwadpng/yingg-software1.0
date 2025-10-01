@@ -120,7 +120,6 @@
   .hero h1{
     margin:0;
     font-size:clamp(2rem, 4.8vw, 3.6rem);
-    transition: opacity .25s ease, transform .25s ease;
     line-height:1.08;
     background: linear-gradient(90deg, #00f0ff, #8a7bff, #ffffff, #00f0ff);
     background-size: 300% 100%;
@@ -755,25 +754,6 @@
 
 /* ===== hero background: cross-fade v1..v6 with preload & overlap ===== */
 (function heroBgPlaylist(){
-    // headline swapping (no change to your sub-rotator)
-  const headlineEl = document.querySelector('.hero h1');
-  const HEADLINES = [
-    'Data-Driven BI & Analytics',
-    'Custom Web Development',
-    'E-commerce Website Development',
-    'Data Warehousing & ETL',
-    'AI & Predictive Analytics',
-    'Executive Dashboards & Reporting'
-  ];
-  function swapHeadline(text){
-    if(!headlineEl) return;
-    headlineEl.classList.add('swap');
-    setTimeout(()=>{
-      headlineEl.textContent = text;
-      headlineEl.classList.remove('swap');
-    }, 220); // slightly under the CSS .25s for snappy feel
-  }
-
   const slides = document.querySelector('.hero-slides'); // may be null
 
   const container = document.querySelector('.hero-bg');
@@ -813,7 +793,6 @@
     await loadInto(cur, index);       // v1
     await cur.play().catch(()=>{});
     cur.classList.add('show');        // fade in first video
-    swapHeadline(HEADLINES[0]);
 
     await loadInto(next, index+1);    // preload v2
 
@@ -826,10 +805,6 @@
 
         // start next and fade it in
         try { await next.play(); } catch(e){}
-                // update headline for the upcoming video
-        const nextIdx = (index + 1) % HEADLINES.length;
-        swapHeadline(HEADLINES[nextIdx]);
-
         next.classList.add('show');       // fade in next
         // after fade completes, hide old and rotate refs
         setTimeout(async ()=>{
@@ -928,3 +903,20 @@
 </script>
 </body>
 </html>
+now looks everything perfect 
+but now while chaging  every video 
+Data-Driven Solutions, Analytics Mastery & Strategic Insights
+this is stagble right 
+we want to move this and chneg 
+it 
+like this then web development 
+e commarce website developmetn 
+i want to add 
+also few like 
+about bi projects that watnt o add 
+what you think 
+what we add wantto show 
+ bi main web and e commany 
+this 2  in moving at the place 
+per video like  one after one 
+like  that so that we oofering now so watnto add help me dont wantto change in exsitng anything 
