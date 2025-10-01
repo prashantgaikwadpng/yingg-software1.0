@@ -751,12 +751,12 @@
   }
   step();
 })();
-<script>
-/* ===== hero background: cross-fade v1..v6 with preload & overlap (rebinding fix) ===== */
+
+/* ===== hero background: cross-fade v1..v6 with preload & overlap ===== */
 (function heroBgPlaylist(){
   const slides = document.querySelector('.hero-slides'); // may be null
-  const container = document.querySelector('.hero-bg');
 
+  const container = document.querySelector('.hero-bg');
   const vA = document.createElement('video');
   const vB = document.createElement('video');
 
@@ -771,85 +771,61 @@
 
   const files = ['v1','v2','v3','v4','v5','v6'].map(n=>`/${n}.mp4`);
   let cur = vA, next = vB;
-  let index = 0;              // current file idx for 'cur'
+  let index = 0;           // points to the CURRENT file in 'cur'
   let crossfading = false;
-  let tickHandler = null;     // <— we will rebind this after every swap
 
   function loadInto(video, i){
     return new Promise(resolve=>{
       const src = files[i % files.length];
       if (video.src.endsWith(src)) { resolve(); return; }
       const onReady = ()=> resolve();
-      // more reliable than 'canplay' for seamless crossfade
-      video.addEventListener('canplaythrough', onReady, { once:true });
+      video.addEventListener('canplay', onReady, { once:true });
       video.src = src;
       video.load();
     });
   }
 
-  function attachTick(){
-    // remove previous listener from current cur (if any)
-    if (tickHandler) cur.removeEventListener('timeupdate', tickHandler);
+  async function start(){
+    // hide images immediately if present
+    slides && slides.classList.add('hide');
 
-    tickHandler = async function(){
+    // prime first two videos
+    await loadInto(cur, index);       // v1
+    await cur.play().catch(()=>{});
+    cur.classList.add('show');        // fade in first video
+
+    await loadInto(next, index+1);    // preload v2
+
+    // monitor current video and cross-fade ~0.4s before it ends
+    cur.addEventListener('timeupdate', async function tick(){
       if (crossfading || !cur.duration) return;
       const remaining = cur.duration - cur.currentTime;
-
-      // start fade a bit earlier than before; you can keep 0.4 if you prefer
-      if (remaining <= 0.6){
+      if (remaining <= 0.4){              // overlap window
         crossfading = true;
 
+        // start next and fade it in
         try { await next.play(); } catch(e){}
-        next.classList.add('show');     // fades in via CSS
-
-        // after fade completes, rotate videos
+        next.classList.add('show');       // fade in next
+        // after fade completes, hide old and rotate refs
         setTimeout(async ()=>{
-          cur.classList.remove('show'); // fade out old
-
+          cur.classList.remove('show');   // fade out old
+          // swap refs
           const old = cur;
           cur = next;
           next = old;
 
+          // advance index and preload the upcoming file
           index = (index + 1) % files.length;
-
-          // free old video to avoid decoder/memory limits on some devices
-          old.pause();
-          old.removeAttribute('src');
-          old.load();
-
-          // preload the upcoming file into 'next'
           await loadInto(next, index + 1);
 
           crossfading = false;
-
-          // IMPORTANT: re-attach the timeupdate on the NEW 'cur'
-          attachTick();
-        }, 450);
+        }, 450); // a hair longer than CSS .6s works too; 450ms feels snappy
       }
-    };
-
-    cur.addEventListener('timeupdate', tickHandler);
-  }
-
-  async function start(){
-    // hide fallback images if present
-    slides && slides.classList.add('hide');
-
-    // prime first two videos
-    await loadInto(cur, index);         // v1
-    try { await cur.play(); } catch(e){}
-    cur.classList.add('show');          // make first visible
-
-    await loadInto(next, index+1);      // preload v2
-
-    // start the timeupdate loop on the current 'cur'
-    attachTick();
+    });
   }
 
   start();
 })();
-</script>
-
 
 
   /* ===== reveal on scroll + chart animations ===== */
