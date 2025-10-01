@@ -1,1 +1,889 @@
-<html lang="en"> <head> <meta charset="UTF-8" /> <meta name="viewport" content="width=device-width, initial-scale=1" /> <meta name="theme-color" content="#0b0d12" /> <title>Yingg Software Solution – Business Intelligence & Analytics Excellence</title> <style> /* ============ TOKENS ============ */ :root{ --bg: #0b0d12; --panel: #101521; --panel-2: #0d131e; --text: #f6f8ff; /* main text = WHITE-ish for mobile readability */ --muted: #c6cbd7; --line: #1e2535; --accent: #6c5ce7; /* indigo */ --accent-2: #22d3ee; /* cyan */ --radius: 18px; --header-h: 70px; --maxw: 1200px; --shadow: 0 10px 30px rgba(0,0,0,.35); } /* ============ BASE ============ */ *,*::before,*::after{ box-sizing:border-box; } html,body{ height:100%; } body{ margin:0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans"; color:var(--text); background: radial-gradient(1200px 600px at 10% -10%, #131a2b 20%, transparent 50%), radial-gradient(900px 600px at 110% 10%, #0e1626 10%, transparent 55%), var(--bg); line-height:1.6; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; overflow-x:hidden; padding-top: var(--header-h); } a{ color:inherit; text-decoration:none; } section{ scroll-margin-top: calc(var(--header-h) + 10px); } .container{ max-width:var(--maxw); margin:0 auto; padding:0 20px; } /* motion-safe */ @media (prefers-reduced-motion: reduce){ *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; } } /* ============ HEADER ============ */ header{ position:fixed; inset:0 0 auto 0; height:var(--header-h); background: color-mix(in oklab, var(--panel) 75%, #000 25%); backdrop-filter: blur(8px); border-bottom:1px solid var(--line); z-index:1000; } nav{ height:100%; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:0 20px; max-width:var(--maxw); margin:0 auto; } .brand{ display:flex; align-items:center; gap:.6rem; font-weight:800; letter-spacing:.3px; } .brand-badge{ width:26px; height:26px; border-radius:8px; background: linear-gradient(135deg, var(--accent), #8a7bff 60%); display:grid; place-items:center; font-weight:900; box-shadow: 0 6px 18px rgba(108,92,231,.35); } .brand span{ color:#fff; } .menu-btn{ display:none; background:transparent; border:0; color:#fff; font-size:1.6rem; line-height:1; padding:.25rem .5rem; border-radius:10px; } .nav-links{ display:flex; gap:20px; align-items:center; list-style:none; margin:0; padding:0; } .nav-links a{ padding:.55rem .85rem; border-radius:10px; color:var(--muted); transition: background .2s ease, color .2s ease, transform .2s ease; } .nav-links a:hover{ color:#fff; background:#151b2a; transform:translateY(-1px); } .cta-small{ background: linear-gradient(135deg, var(--accent), #8a7bff); color:#fff; border:0; border-radius:12px; padding:.58rem .95rem; font-weight:700; box-shadow: 0 10px 20px rgba(108,92,231,.28); } @media (max-width: 880px){ .menu-btn{ display:block; } .nav-links{ position:fixed; top:var(--header-h); left:0; right:0; background: color-mix(in oklab, var(--panel) 85%, black 15%); border-bottom:1px solid var(--line); flex-direction:column; gap:6px; padding:14px 16px 16px; display:none; } .nav-links.open{ display:flex; } .nav-links a,.cta-small{ width:100%; text-align:center; } } /* ============ BACKGROUND PARTICLES (subtle) ============ */ .particles{ position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.25; } .particle{ position:absolute; width:3px; height:3px; border-radius:50%; background: radial-gradient(circle, #9ecbff 0%, #4fc3f7 50%, transparent 70%); animation: floatY linear infinite; filter: drop-shadow(0 0 6px rgba(79,195,247,.55)); } @keyframes floatY{ from{ transform: translateY(110vh); opacity:0; } 10%{ opacity:1; } to{ transform: translateY(-10vh); opacity:0; } } /* ============ HERO ============ */ .hero{ padding: clamp(3rem, 6vw, 6rem) 0; position:relative; z-index:1; } .grid-bg{ position:absolute; inset:0; pointer-events:none; opacity:.14; background: linear-gradient(0deg, #111827 1px, transparent 1px) 0 0/100% 34px, linear-gradient(90deg, #111827 1px, transparent 1px) 0 0/34px 100%; } .hero-wrap{ display:grid; gap:20px; place-items:center; text-align:center; } .eyebrow{ font-size:.9rem; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); } .hero h1{ margin:0; font-size:clamp(2rem, 4.8vw, 3.6rem); line-height:1.08; background: linear-gradient(90deg, #00f0ff, #8a7bff, #ffffff, #00f0ff); background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: headlineFlow 8s linear infinite, glowPulse 2.5s ease-in-out infinite; letter-spacing: 1px; } @keyframes headlineFlow{ 0%{ background-position: 0% 0; } 50%{ background-position: 100% 0; } 100%{ background-position: 0% 0; } } @keyframes glowPulse{ 0%,100%{ text-shadow: 0 0 10px rgba(0,255,255,0.6), 0 0 20px rgba(0,255,255,0.4); } 50%{ text-shadow: 0 0 20px rgba(138,123,255,0.9), 0 0 40px rgba(138,123,255,0.6); } } @keyframes headlineFlow{ 0%{ background-position: 0% 0; } 50%{ background-position: 100% 0; } 100%{ background-position: 0% 0; } } .hero .sub-rotator{ min-height: 1.6em; font-weight:600; color:#e9ecff; /* WHITE-ish on mobile */ } .hero p{ color:var(--muted); max-width:900px; } .hero-actions{ display:flex; gap:12px; flex-wrap:wrap; justify-content:center; } .btn{ display:inline-flex; align-items:center; gap:.5rem; padding: .9rem 1.25rem; border-radius:14px; border:1px solid var(--line); color:#fff; background: #141a2a; font-weight:700; transition: transform .15s ease, border-color .2s ease, box-shadow .2s ease; } .btn:hover{ transform: translateY(-2px); border-color:#243048; box-shadow: var(--shadow); } .btn.primary{ background: linear-gradient(135deg, var(--accent), #8a7bff); border:0; box-shadow: 0 16px 30px rgba(108,92,231,.28); } /* ============ SECTIONS / CARDS ============ */ .section{ padding: clamp(3rem, 6vw, 6rem) 0; } .head{ display:grid; gap:.5rem; text-align:center; margin-bottom: clamp(1.8rem, 4vw, 2.4rem); } .title{ font-size: clamp(1.6rem, 3.2vw, 2.2rem); color:#fff; margin:0; } .sub{ color:var(--muted); } .grid{ display:grid; gap: clamp(14px, 2.5vw, 22px); } @media (min-width:700px){ .cols-3{ grid-template-columns:repeat(3,1fr);} .cols-2{ grid-template-columns:repeat(2,1fr);} } .card{ background: var(--panel); border:1px solid var(--line); border-radius: var(--radius); padding: clamp(1rem, 2.2vw, 1.6rem); box-shadow: 0 2px 0 rgba(255,255,255,.02) inset, 0 30px 60px rgba(0,0,0,.25); transition: transform .18s ease, border-color .2s ease, box-shadow .2s ease; will-change: transform; } .card:hover{ transform: translateY(-6px); border-color:#28324a; box-shadow: var(--shadow); } .card h3{ margin:.2rem 0 .4rem; color:#fff; font-size:1.1rem; } .card p{ color:var(--muted); margin:0; } .tech{ display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; } .chip{ padding:.35rem .6rem; font-size:.85rem; border:1px solid #243048; color:#dfe6ff; background:#0f1626; border-radius:999px; } /* ============ PORTFOLIO CHARTS (SVG animated) ============ */ .project{ overflow:hidden; padding:0; display:grid; gap:0; } .project-visual{ background: var(--panel-2); border-bottom:1px solid var(--line); aspect-ratio:16/9; display:grid; place-items:center; } .project-body{ padding:1rem 1.25rem 1.25rem; } .project h3{ margin:.25rem 0 .5rem; font-size:1.05rem; } .chart{ width:100%; height:auto; } /* animate bars with scaleY from bottom */ .bars rect{ transform-box: fill-box; transform-origin: bottom center; transform: scaleY(0); transition: transform .9s ease .05s; } .animate .bars rect{ transform: scaleY(1); } /* animate line drawing */ .line{ stroke-dasharray: 1200; stroke-dashoffset: 1200; transition: stroke-dashoffset 1.1s ease .15s; } .animate .line{ stroke-dashoffset: 0; } /* animate donut fill via dashoffset */ .donut{ stroke-dasharray: 440; stroke-dashoffset: 440; transition: stroke-dashoffset 1.2s ease .15s; } .animate .donut.p92{ stroke-dashoffset: calc(440 - 440*0.92); } .animate .donut.p80{ stroke-dashoffset: calc(440 - 440*0.80); } .animate .donut.p72{ stroke-dashoffset: calc(440 - 440*0.72); } /* ============ ABOUT / STATS ============ */ .stats{ display:grid; gap:12px; } @media (min-width:600px){ .stats{ grid-template-columns:repeat(4,1fr); } } .stat{ background: var(--panel); border:1px solid var(--line); border-radius:16px; padding:18px; text-align:center; } .stat .num{ font-size:1.8rem; font-weight:900; color:#fff; } .stat .lab{ color:var(--muted); } /* ============ CONTACT ============ */ .form{ max-width:640px; margin:0 auto; } .field{ margin-bottom:14px; } .input,.select,.textarea{ width:100%; padding:14px; border-radius:12px; border:1px solid #1e2841; background:#0e1524; color:#fff; outline:none; transition:border-color .2s ease, box-shadow .2s ease; } .input::placeholder,.textarea::placeholder{ color:#9aa4bb; } .input:focus,.textarea:focus,.select:focus{ border-color:#2a3a63; box-shadow: 0 0 0 4px rgba(46,87,255,.14); } .textarea{ min-height:120px; resize:vertical; } .contact-info{ margin-top:16px; padding:14px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); text-align:center; color:var(--muted); } .contact-info a{ color:#fff; } .contact-info a:hover{ color: var(--accent-2); } /* ============ FOOTER ============ */ footer{ border-top:1px solid var(--line); background:#0a0f1b; padding:28px 0; margin-top:30px; color:var(--muted); } .foot-grid{ display:grid; gap:18px; } @media (min-width:700px){ .foot-grid{ grid-template-columns:repeat(3,1fr); } } .foot h4{ color:#fff; margin:0 0 8px; } .social a{ font-size:1.25rem; margin-right:10px; display:inline-block; } /* ============ REVEAL ============ */ .reveal{ opacity:0; transform: translateY(18px); transition: opacity .5s ease, transform .5s ease; } .reveal.show{ opacity:1; transform: translateY(0); } /* ===== ADVANCED HERO BG ===== */ .hero{ position:relative; overflow:hidden; } .hero-bg{ position:absolute; inset:0; z-index:0; pointer-events:none; background: radial-gradient(1200px 600px at 10% -10%, rgba(19,26,43,.5) 20%, transparent 55%), radial-gradient(900px 600px at 110% 10%, rgba(14,22,38,.5) 10%, transparent 60%); } #netCanvas{ position:absolute; inset:0; width:100%; height:100%; display:block; z-index: 2; /* bond ABOVE images/videos */ pointer-events:none; /* don't block clicks */ } .hero-slides{ position:absolute; inset:0; overflow:hidden; mix-blend-mode:screen; opacity:.45; } .hero-slides img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform: scale(1.08); opacity:0; animation: heroFade 18s ease-in-out infinite; filter: saturate(1.1) contrast(1.05); } .hero-slides img:nth-child(1){ animation-delay: 0s; } .hero-slides img:nth-child(2){ animation-delay: 6s; } .hero-slides img:nth-child(3){ animation-delay: 12s; } /* hero background video (under the bond) */ .hero-video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition: opacity .6s ease; /* smooth fade transition */ mix-blend-mode:screen; pointer-events:none; z-index:1; background:#0f1524; /* prevents flash on first frame */ will-change: opacity; /* smoother GPU fade */ } /* keep same blend and allow fading images out */ .hero-slides{ transition: opacity .8s ease; z-index:1; } .hero-slides.hide{ opacity:0; } .hero-slides{ display:none !important; } /* when we reveal the video */ .hero-video.show{ opacity:.9; } @keyframes heroFade{ 0%{ opacity:0; transform:scale(1.08); } 7%,33%{ opacity:1; transform:scale(1.0); } 40%,100%{ opacity:0; transform:scale(1.08); } } .hero .container{ position:relative; z-index:1; } </style> </head> <body> <!-- subtle particles --> <div class="particles" id="particles" aria-hidden="true"></div> <!-- Header --> <header> <nav> <div class="brand"> <div class="brand-badge">Y</div> <span>Yingg Software</span> </div> <button class="menu-btn" aria-label="Open menu" aria-expanded="false">☰</button> <ul class="nav-links" id="navLinks"> <li><a href="#home">Home</a></li> <li><a href="#services">BI Services</a></li> <li><a href="#portfolio">Projects</a></li> <li><a href="#about">About</a></li> <li><a class="cta-small" href="#contact">Contact</a></li> </ul> </nav> </header> <!-- Hero --> <section id="home" class="hero"> <div class="grid-bg" aria-hidden="true"></div> <!-- ADVANCED HERO BACKGROUND --> <div class="hero-bg"> <canvas id="netCanvas" aria-hidden="true"></canvas> <video class="hero-video" muted playsinline preload="auto"></video> <!-- Optional background slideshow --> <div class="hero-slides"> <img src="/bi2.jpg" alt="" /> <img src="/bi3.jpg" alt="" /> </div> </div> <div class="container hero-wrap"> <div class="eyebrow">Business Intelligence Excellence</div> <h1>Data-Driven Solutions, Analytics Mastery & Strategic Insights</h1> <div class="sub-rotator" id="subRotator">Analytics • Dashboards • Insights • Growth</div> <p>Transform your business with cutting-edge BI analytics, advanced data visualization, and intelligent reporting solutions that drive strategic decision-making and accelerate growth.</p> <div class="hero-actions"> <a href="#services" class="btn primary">Explore BI Solutions</a> <a href="#portfolio" class="btn">View Our Projects</a> </div> </div> </section> <!-- Services --> <section id="services" class="section"> <div class="container"> <div class="head"> <h2 class="title">BI Analytics Services</h2> <div class="sub">Comprehensive Business Intelligence Solutions</div> </div> <div class="grid cols-3"> <article class="card reveal"> <h3>Advanced Data Analytics</h3> <p>ML, predictive modeling, and statistical analysis to uncover patterns and actionable insights.</p> <div class="tech"> <span class="chip">Python</span><span class="chip">R</span><span class="chip">SQL</span><span class="chip">Tableau</span><span class="chip">Power BI</span> </div> </article> <article class="card reveal"> <h3>Interactive Dashboards</h3> <p>Real-time KPI monitoring and executive reporting for data-driven decisions across the org.</p> <div class="tech"> <span class="chip">Power BI</span><span class="chip">Tableau</span><span class="chip">Qlik Sense</span><span class="chip">D3.js</span><span class="chip">Plotly</span> </div> </article> <article class="card reveal"> <h3>Data Warehouse Solutions</h3> <p>Scalable DWH, ETL, and data lake design for centralized management and high-performance analytics.</p> <div class="tech"> <span class="chip">AWS</span><span class="chip">Azure</span><span class="chip">Snowflake</span><span class="chip">Spark</span><span class="chip">SSIS</span> </div> </article> <article class="card reveal"> <h3>AI-Powered Insights</h3> <p>Forecasting, segmentation, and automation using robust ML pipelines.</p> <div class="tech"> <span class="chip">TensorFlow</span><span class="chip">PyTorch</span><span class="chip">scikit-learn</span><span class="chip">Azure ML</span><span class="chip">SageMaker</span> </div> </article> <article class="card reveal"> <h3>ETL & Data Integration</h3> <p>Reliable pipelines, quality checks, and orchestration for seamless analytics.</p> <div class="tech"> <span class="chip">Airflow</span><span class="chip">Informatica</span><span class="chip">Talend</span><span class="chip">SSIS</span><span class="chip">Kafka</span> </div> </article> <article class="card reveal"> <h3>Executive Reporting</h3> <p>Automated reporting, scorecards, and C-level dashboards.</p> <div class="tech"> <span class="chip">SSRS</span><span class="chip">Crystal Reports</span><span class="chip">Power BI</span><span class="chip">Tableau</span><span class="chip">Excel</span> </div> </article> </div> </div> </section> <!-- Portfolio with animated SVG charts --> <section id="portfolio" class="section"> <div class="container"> <div class="head"> <h2 class="title">Featured BI Projects</h2> <div class="sub">Transformative Analytics Solutions</div> </div> <div class="grid cols-3"> <!-- Project 1 --> <article class="card project reveal"> <div class="project-visual"> <svg class="chart" viewBox="0 0 600 338" role="img" aria-label="Retail analytics"> <defs> <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"> <stop offset="0%" stop-color="#8a7bff"/> <stop offset="100%" stop-color="#3b2dd6"/> </linearGradient> </defs> <rect width="600" height="338" fill="#0f1524"/> <!-- gridlines --> <g stroke="#1b2440" stroke-width="1"> <line x1="50" y1="280" x2="560" y2="280"/> <line x1="50" y1="220" x2="560" y2="220"/> <line x1="50" y1="160" x2="560" y2="160"/> </g> <!-- bars (animated) --> <g class="bars" fill="url(#g1)"> <rect x="70" y="120" width="40" height="150" rx="6"/> <rect x="130" y="90" width="40" height="180" rx="6"/> <rect x="190" y="150" width="40" height="120" rx="6"/> <rect x="250" y="70" width="40" height="200" rx="6"/> </g> <!-- line (animated draw) --> <polyline class="line" fill="none" stroke="#22d3ee" stroke-width="4" points="70,240 130,190 190,220 250,160 310,180 370,140 430,120 490,100"/> </svg> </div> <div class="project-body"> <h3>Retail Analytics Platform</h3> <p>Real-time sales analytics, inventory optimization, and customer behavior insights. +25% revenue impact.</p> <div class="tech"><span class="chip">Power BI</span><span class="chip">Azure SQL</span><span class="chip">SSIS</span></div> </div> </article> <!-- Project 2 --> <article class="card project reveal"> <div class="project-visual"> <svg class="chart" viewBox="0 0 600 338" role="img" aria-label="Financial area"> <rect width="600" height="338" fill="#0f1524"/> <g stroke="#1b2440"> <line x1="50" y1="270" x2="560" y2="270"/> <line x1="50" y1="220" x2="560" y2="220"/> <line x1="50" y1="170" x2="560" y2="170"/> </g> <polyline class="line" fill="rgba(108,92,231,.28)" stroke="#6c5ce7" stroke-width="2" points="50,260 120,230 200,210 260,190 320,170 380,150 450,140 560,120 560,270 50,270"/> </svg> </div> <div class="project-body"> <h3>Financial Dashboard Suite</h3> <p>Automated P&amp;L, budget tracking, and predictive models for banking analytics.</p> <div class="tech"><span class="chip">Tableau</span><span class="chip">Oracle</span><span class="chip">Python</span></div> </div> </article> <!-- Project 3 --> <article class="card project reveal"> <div class="project-visual"> <svg class="chart" viewBox="0 0 600 338" role="img" aria-label="Manufacturing KPIs"> <rect width="600" height="338" fill="#0f1524"/> <g transform="translate(120,170)"> <circle r="70" fill="none" stroke="#1b2440" stroke-width="20"/> <circle class="donut p92" r="70" fill="none" stroke="#22d3ee" stroke-width="20" transform="rotate(-90)" stroke-linecap="round"/> <text x="0" y="8" text-anchor="middle" fill="#dfe6ff" font-size="22" font-weight="700">92%</text> </g> <g transform="translate(300,170)"> <circle r="70" fill="none" stroke="#1b2440" stroke-width="20"/> <circle class="donut p80" r="70" fill="none" stroke="#6c5ce7" stroke-width="20" transform="rotate(-90)" stroke-linecap="round"/> <text x="0" y="8" text-anchor="middle" fill="#dfe6ff" font-size="22" font-weight="700">80%</text> </g> <g transform="translate(480,170)"> <circle r="70" fill="none" stroke="#1b2440" stroke-width="20"/> <circle class="donut p72" r="70" fill="none" stroke="#8a7bff" stroke-width="20" transform="rotate(-90)" stroke-linecap="round"/> <text x="0" y="8" text-anchor="middle" fill="#dfe6ff" font-size="22" font-weight="700">72%</text> </g> </svg> </div> <div class="project-body"> <h3>Manufacturing Intelligence</h3> <p>IoT-integrated monitoring, quality dashboards, and predictive maintenance (−40% downtime).</p> <div class="tech"><span class="chip">Qlik Sense</span><span class="chip">IoT Hub</span><span class="chip">Machine Learning</span></div> </div> </article> <!-- Project 4 --> <article class="card project reveal"> <div class="project-visual"> <svg class="chart" viewBox="0 0 600 338" role="img" aria-label="Healthcare heatmap"> <rect width="600" height="338" fill="#0f1524"/> <g> <!-- 6x3 heat cells --> <rect x="80" y="80" width="60" height="60" rx="8" fill="#152136"/> <rect x="150" y="80" width="60" height="60" rx="8" fill="#1a2742"/> <rect x="220" y="80" width="60" height="60" rx="8" fill="#223154"/> <rect x="290" y="80" width="60" height="60" rx="8" fill="#2a3b68"/> <rect x="360" y="80" width="60" height="60" rx="8" fill="#34537f"/> <rect x="430" y="80" width="60" height="60" rx="8" fill="#3d6a97"/> <rect x="80" y="150" width="60" height="60" rx="8" fill="#1a2742"/> <rect x="150" y="150" width="60" height="60" rx="8" fill="#223154"/> <rect x="220" y="150" width="60" height="60" rx="8" fill="#2a3b68"/> <rect x="290" y="150" width="60" height="60" rx="8" fill="#34537f"/> <rect x="360" y="150" width="60" height="60" rx="8" fill="#3d6a97"/> <rect x="430" y="150" width="60" height="60" rx="8" fill="#4892b3"/> <rect x="80" y="220" width="60" height="60" rx="8" fill="#223154"/> <rect x="150" y="220" width="60" height="60" rx="8" fill="#2a3b68"/> <rect x="220" y="220" width="60" height="60" rx="8" fill="#34537f"/> <rect x="290" y="220" width="60" height="60" rx="8" fill="#3d6a97"/> <rect x="360" y="220" width="60" height="60" rx="8" fill="#4892b3"/> <rect x="430" y="220" width="60" height="60" rx="8" fill="#56bcd0"/> </g> </svg> </div> <div class="project-body"> <h3>Healthcare Analytics</h3> <p>Clinical visualization, outcomes analysis, and operational efficiency dashboards.</p> <div class="tech"><span class="chip">Power BI</span><span class="chip">SQL Server</span><span class="chip">R</span></div> </div> </article> </div> </div> </section> <!-- About --> <section id="about" class="section"> <div class="container"> <div class="head"> <h2 class="title">About Yingg Software Solution</h2> <div class="sub">We turn data into strategic business value.</div> </div> <div class="grid cols-2"> <article class="card reveal"> <p style="margin:0;"> We are a specialized Business Intelligence and Analytics company dedicated to transforming data into strategic business value. With deep expertise in advanced analytics, data visualization, and BI platforms, we empower organizations to make data-driven decisions that drive growth and operational excellence. </p> </article> <div class="stats reveal" id="stats"> <div class="stat"> <div class="num" data-target="50">0+</div> <div class="lab">BI Projects Delivered</div> </div> <div class="stat"> <div class="num" data-target="10">0+</div> <div class="lab">Happy Clients</div> </div> <div class="stat"> <div class="num" data-target="2">0+</div> <div class="lab">Years Experience</div> </div> <div class="stat"> <div class="num" data-target="99">0%</div> <div class="lab">Client Satisfaction</div> </div> </div> </div> </div> </section> <!-- Contact --> <section id="contact" class="section"> <div class="container"> <div class="head"> <h2 class="title">Start Your BI Journey</h2> <div class="sub">Let's discuss your analytics requirements</div> </div> <form class="form" id="contactForm" novalidate> <div class="field"><input class="input" type="text" name="name" placeholder="Your Name" required></div> <div class="field"><input class="input" type="email" name="email" placeholder="Your Email" required></div> <div class="field"><input class="input" type="text" name="company" placeholder="Company Name" required></div> <div class="field"> <select class="select" name="service" required> <option value="">Select Service</option> <option value="dashboard">Interactive Dashboards</option> <option value="analytics">Data Analytics</option> <option value="warehouse">Data Warehouse</option> <option value="ai">AI-Powered Insights</option> <option value="etl">ETL & Integration</option> <option value="reporting">Executive Reporting</option> <option value="dwh_design">Data Warehousing Design & Implementation</option> </select> </div> <div class="field"><textarea class="textarea" name="message" rows="5" placeholder="Describe your BI requirements and current data challenges..." required></textarea></div> <button class="btn primary" type="submit">Get Free BI Consultation</button> <div class="contact-info"> <h4 style="margin:0 0 6px; color:#fff;">Contact Info</h4> <div>📞 <a href="tel:+918888943161">+91 88889 43161</a></div> <div>📍 Baner, Pune, Maharashtra</div> <!-- Book Demo + WhatsApp --> <div style="margin-top:14px; display:flex; flex-wrap:wrap; gap:12px; justify-content:center;"> <!-- Book a Demo Button --> <a href="#contactForm" style="display:inline-flex;align-items:center;gap:8px; background:linear-gradient(135deg,#6c5ce7,#8a7bff); color:#fff;padding:10px 16px;border-radius:8px; font-weight:600;text-decoration:none; box-shadow:0 4px 14px rgba(108,92,231,.35);"> 📅 Book a Free Demo ➜ </a> <!-- WhatsApp Button --> <a href="https://wa.me/918888943161" target="_blank" style="display:inline-flex;align-items:center;gap:8px; background:#25D366;color:#fff;padding:10px 16px; border-radius:8px;font-weight:600;text-decoration:none; box-shadow:0 4px 12px rgba(37,211,102,.4);"> <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" width="22" height="22" style="display:block;"> Chat on WhatsApp </a> </div> </div> </form> </div> </section> <!-- Footer --> <footer> <div class="container foot-grid"> <div> <h4>Yingg Software Solution</h4> <div>Transforming businesses through intelligent analytics and cutting-edge BI.</div> </div> <div> <h4>BI Services</h4> <div>Data Analytics • Dashboards • Data Warehousing • AI Insights • ETL • Executive Reporting</div> </div> <div> <h4>Technologies</h4> <div>Power BI • Tableau • Python • SQL • AWS • Snowflake • Azure • ML • Big Data</div> <div class="social" style="margin-top:10px;"> <a href="#" aria-label="LinkedIn">🔗</a> <a href="#" aria-label="GitHub">💻</a> <a href="#" aria-label="Email">📧</a> </div> </div> </div> <div class="container" style="margin-top:14px;">© 2025 Yingg Software Solution Pvt Ltd. All rights reserved.</div> </footer> <script> /* ===== mobile menu ===== */ const menuBtn = document.querySelector('.menu-btn'); const navLinks = document.getElementById('navLinks'); if(menuBtn && navLinks){ menuBtn.addEventListener('click', ()=>{ const open = navLinks.classList.toggle('open'); menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false'); }); navLinks.querySelectorAll('a').forEach(link=>{ link.addEventListener('click', ()=>{ navLinks.classList.remove('open'); menuBtn.setAttribute('aria-expanded','false'); }); }); } /* ===== smooth scroll ===== */ document.querySelectorAll('a[href^="#"]').forEach(a=>{ a.addEventListener('click', e=>{ const id = a.getAttribute('href'); const el = document.querySelector(id); if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); } }); }); /* ===== particles (very light) ===== */ /* ===== Canvas network (dots + lines) ===== */ (function network(){ const canvas = document.getElementById('netCanvas'); if(!canvas) return; const ctx = canvas.getContext('2d'); let w, h, dpr, points, maxDist; function resize(){ dpr = Math.min(window.devicePixelRatio || 1, 2); w = canvas.clientWidth; h = canvas.clientHeight; canvas.width = w * dpr; canvas.height = h * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); const count = Math.round((w*h)/18000); maxDist = Math.max(90, Math.min(160, Math.sqrt(w*h)/12)); points = Array.from({length: count}, () => ({ x: Math.random()*w, y: Math.random()*h, vx: (Math.random()-.5)*0.6, vy: (Math.random()-.5)*0.6 })); } resize(); window.addEventListener('resize', resize); const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches; if(prefersReduced) return; function step(){ ctx.clearRect(0,0,w,h); for(const p of points){ p.x += p.vx; p.y += p.vy; if(p.x<0||p.x>w) p.vx*=-1; if(p.y<0||p.y>h) p.vy*=-1; } for(let i=0;i<points.length;i++){ const p = points[i]; ctx.beginPath(); ctx.arc(p.x, p.y, 1.2, 0, Math.PI*2); ctx.fillStyle = 'rgba(146,197,255,.65)'; ctx.fill(); for(let j=i+1;j<points.length;j++){ const q = points[j]; const dx = p.x-q.x, dy = p.y-q.y; const dist = Math.hypot(dx,dy); if(dist < maxDist){ const t = 1 - dist/maxDist; ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.strokeStyle = rgba(34,211,238,${0.22*t}); ctx.lineWidth = 1 * t; ctx.stroke(); } } } requestAnimationFrame(step); } step(); })(); /* ===== hero background: cross-fade v1..v6 with preload & overlap ===== */ (function heroBgPlaylist(){ const slides = document.querySelector('.hero-slides'); // may be null const container = document.querySelector('.hero-bg'); const vA = document.createElement('video'); const vB = document.createElement('video'); [vA, vB].forEach(v=>{ v.className = 'hero-video'; v.muted = true; v.playsInline = true; v.preload = 'auto'; v.setAttribute('webkit-playsinline',''); container.appendChild(v); }); const files = ['v1','v2','v3','v4','v5','v6'].map(n=>/${n}.mp4); let cur = vA, next = vB; let index = 0; // points to the CURRENT file in 'cur' let crossfading = false; function loadInto(video, i){ return new Promise(resolve=>{ const src = files[i % files.length]; if (video.src.endsWith(src)) { resolve(); return; } const onReady = ()=> resolve(); video.addEventListener('canplay', onReady, { once:true }); video.src = src; video.load(); }); } async function start(){ // hide images immediately if present slides && slides.classList.add('hide'); // prime first two videos await loadInto(cur, index); // v1 await cur.play().catch(()=>{}); cur.classList.add('show'); // fade in first video await loadInto(next, index+1); // preload v2 // monitor current video and cross-fade ~0.4s before it ends cur.addEventListener('timeupdate', async function tick(){ if (crossfading || !cur.duration) return; const remaining = cur.duration - cur.currentTime; if (remaining <= 0.4){ // overlap window crossfading = true; // start next and fade it in try { await next.play(); } catch(e){} next.classList.add('show'); // fade in next // after fade completes, hide old and rotate refs setTimeout(async ()=>{ cur.classList.remove('show'); // fade out old // swap refs const old = cur; cur = next; next = old; // advance index and preload the upcoming file index = (index + 1) % files.length; await loadInto(next, index + 1); crossfading = false; }, 450); // a hair longer than CSS .6s works too; 450ms feels snappy } }); } start(); })(); /* ===== reveal on scroll + chart animations ===== */ const io = new IntersectionObserver((entries)=>{ entries.forEach(entry=>{ if(entry.isIntersecting){ entry.target.classList.add('show'); // if it's a project, also add .animate to enable SVG transitions const svg = entry.target.querySelector('.chart'); if(svg) entry.target.classList.add('animate'); // if stats, count up once if(entry.target.id === 'stats'){ startCounters(); } io.unobserve(entry.target); } }); }, {threshold:.18}); document.querySelectorAll('.reveal').forEach(el=>io.observe(el)); /* ===== subtitle rotator (typing effect) ===== */ const subRotator = document.getElementById('subRotator'); const phrases = [ 'Analytics • Dashboards • Insights • Growth', 'Data Quality • KPIs • Real-time Monitoring', 'Prediction • Segmentation • Forecasting', 'Executive Reports • Strategy • Impact' ]; let pi = 0, typing = false; function typePhrase(text, cb){ typing = true; subRotator.textContent = ''; let i = 0; (function step(){ if(i <= text.length){ subRotator.textContent = text.slice(0, i++); setTimeout(step, 18); }else{ typing = false; cb && setTimeout(cb, 1400); } })(); } function cycle(){ typePhrase(phrases[pi], ()=>{ pi=(pi+1)%phrases.length; cycle(); }); } cycle(); /* ===== counters ===== */ let countersStarted = false; function startCounters(){ if(countersStarted) return; countersStarted = true; document.querySelectorAll('#stats .num').forEach(el=>{ const target = Number(el.dataset.target||0); let cur = 0, step = Math.max(1, Math.round(target/60)); const plus = el.textContent.includes('+') ? '+' : (el.textContent.includes('%') ? '%' : ''); const timer = setInterval(()=>{ cur += step; if(cur >= target){ cur = target; clearInterval(timer); } el.textContent = cur + plus; }, 24); }); } /* ===== form (front-end only) ===== */ const form = document.getElementById('contactForm'); if(form){ form.addEventListener('submit', (e)=>{ e.preventDefault(); const fields = form.querySelectorAll('[required]'); let ok = true; fields.forEach(f=>{ if(!f.value.trim()){ ok=false; f.style.borderColor='#ff6161'; } else{ f.style.borderColor='#2a3a63'; } }); alert(ok ? 'Thank you! Our BI experts will contact you within 24 hours.' : 'Please fill in all required fields.'); ok && form.reset(); }); } </script> </body> </html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#0b0d12" />
+<title>Yingg Software Solution – Business Intelligence & Analytics Excellence</title>
+
+<style>
+  /* ============ TOKENS ============ */
+  :root{
+    --bg: #0b0d12;
+    --panel: #101521;
+    --panel-2: #0d131e;
+    --text: #f6f8ff;         /* main text = WHITE-ish for mobile readability */
+    --muted: #c6cbd7;
+    --line: #1e2535;
+    --accent: #6c5ce7;       /* indigo */
+    --accent-2: #22d3ee;     /* cyan */
+    --radius: 18px;
+    --header-h: 70px;
+    --maxw: 1200px;
+    --shadow: 0 10px 30px rgba(0,0,0,.35);
+  }
+
+  /* ============ BASE ============ */
+  *,*::before,*::after{ box-sizing:border-box; }
+  html,body{ height:100%; }
+  body{
+    margin:0;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans";
+    color:var(--text);
+    background:
+      radial-gradient(1200px 600px at 10% -10%, #131a2b 20%, transparent 50%),
+      radial-gradient(900px 600px at 110% 10%, #0e1626 10%, transparent 55%),
+      var(--bg);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    overflow-x:hidden;
+    padding-top: var(--header-h);
+  }
+  a{ color:inherit; text-decoration:none; }
+  section{ scroll-margin-top: calc(var(--header-h) + 10px); }
+  .container{ max-width:var(--maxw); margin:0 auto; padding:0 20px; }
+
+  /* motion-safe */
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; }
+  }
+
+  /* ============ HEADER ============ */
+  header{
+    position:fixed; inset:0 0 auto 0; height:var(--header-h);
+    background: color-mix(in oklab, var(--panel) 75%, #000 25%);
+    backdrop-filter: blur(8px);
+    border-bottom:1px solid var(--line);
+    z-index:1000;
+  }
+  nav{
+    height:100%; display:flex; align-items:center; justify-content:space-between;
+    gap:16px; padding:0 20px; max-width:var(--maxw); margin:0 auto;
+  }
+  .brand{ display:flex; align-items:center; gap:.6rem; font-weight:800; letter-spacing:.3px; }
+  .brand-badge{
+    width:26px; height:26px; border-radius:8px;
+    background: linear-gradient(135deg, var(--accent), #8a7bff 60%);
+    display:grid; place-items:center; font-weight:900;
+    box-shadow: 0 6px 18px rgba(108,92,231,.35);
+  }
+  .brand span{ color:#fff; }
+
+  .menu-btn{
+    display:none; background:transparent; border:0; color:#fff; font-size:1.6rem; line-height:1; padding:.25rem .5rem; border-radius:10px;
+  }
+  .nav-links{ display:flex; gap:20px; align-items:center; list-style:none; margin:0; padding:0; }
+  .nav-links a{
+    padding:.55rem .85rem; border-radius:10px; color:var(--muted);
+    transition: background .2s ease, color .2s ease, transform .2s ease;
+  }
+  .nav-links a:hover{ color:#fff; background:#151b2a; transform:translateY(-1px); }
+  .cta-small{
+    background: linear-gradient(135deg, var(--accent), #8a7bff);
+    color:#fff; border:0; border-radius:12px; padding:.58rem .95rem; font-weight:700;
+    box-shadow: 0 10px 20px rgba(108,92,231,.28);
+  }
+  @media (max-width: 880px){
+    .menu-btn{ display:block; }
+    .nav-links{
+      position:fixed; top:var(--header-h); left:0; right:0;
+      background: color-mix(in oklab, var(--panel) 85%, black 15%);
+      border-bottom:1px solid var(--line);
+      flex-direction:column; gap:6px; padding:14px 16px 16px; display:none;
+    }
+    .nav-links.open{ display:flex; }
+    .nav-links a,.cta-small{ width:100%; text-align:center; }
+  }
+
+  /* ============ BACKGROUND PARTICLES (subtle) ============ */
+  .particles{ position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.25; }
+  .particle{
+    position:absolute; width:3px; height:3px; border-radius:50%;
+    background: radial-gradient(circle, #9ecbff 0%, #4fc3f7 50%, transparent 70%);
+    animation: floatY linear infinite;
+    filter: drop-shadow(0 0 6px rgba(79,195,247,.55));
+  }
+  @keyframes floatY{
+    from{ transform: translateY(110vh); opacity:0; }
+    10%{ opacity:1; }
+    to{ transform: translateY(-10vh); opacity:0; }
+  }
+
+  /* ============ HERO ============ */
+  .hero{ padding: clamp(3rem, 6vw, 6rem) 0; position:relative; z-index:1; }
+  .grid-bg{ position:absolute; inset:0; pointer-events:none; opacity:.14;
+    background:
+      linear-gradient(0deg, #111827 1px, transparent 1px) 0 0/100% 34px,
+      linear-gradient(90deg, #111827 1px, transparent 1px) 0 0/34px 100%;
+  }
+  .hero-wrap{ display:grid; gap:20px; place-items:center; text-align:center; }
+  .eyebrow{ font-size:.9rem; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); }
+  .hero h1{
+    margin:0;
+    font-size:clamp(2rem, 4.8vw, 3.6rem);
+    line-height:1.08;
+    background: linear-gradient(90deg, #00f0ff, #8a7bff, #ffffff, #00f0ff);
+    background-size: 300% 100%;
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: headlineFlow 8s linear infinite, glowPulse 2.5s ease-in-out infinite;
+    letter-spacing: 1px;
+}
+@keyframes headlineFlow{
+  0%{ background-position: 0% 0; }
+  50%{ background-position: 100% 0; }
+  100%{ background-position: 0% 0; }
+}
+@keyframes glowPulse{
+  0%,100%{ text-shadow: 0 0 10px rgba(0,255,255,0.6), 0 0 20px rgba(0,255,255,0.4); }
+  50%{ text-shadow: 0 0 20px rgba(138,123,255,0.9), 0 0 40px rgba(138,123,255,0.6); }
+}
+
+  @keyframes headlineFlow{
+    0%{ background-position: 0% 0; }
+    50%{ background-position: 100% 0; }
+    100%{ background-position: 0% 0; }
+  }
+  .hero .sub-rotator{
+    min-height: 1.6em;
+    font-weight:600;
+    color:#e9ecff;     /* WHITE-ish on mobile */
+  }
+  .hero p{ color:var(--muted); max-width:900px; }
+  .hero-actions{ display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
+
+  .btn{
+    display:inline-flex; align-items:center; gap:.5rem;
+    padding: .9rem 1.25rem; border-radius:14px; border:1px solid var(--line);
+    color:#fff; background: #141a2a; font-weight:700;
+    transition: transform .15s ease, border-color .2s ease, box-shadow .2s ease;
+  }
+  .btn:hover{ transform: translateY(-2px); border-color:#243048; box-shadow: var(--shadow); }
+  .btn.primary{ background: linear-gradient(135deg, var(--accent), #8a7bff); border:0; box-shadow: 0 16px 30px rgba(108,92,231,.28); }
+
+  /* ============ SECTIONS / CARDS ============ */
+  .section{ padding: clamp(3rem, 6vw, 6rem) 0; }
+  .head{ display:grid; gap:.5rem; text-align:center; margin-bottom: clamp(1.8rem, 4vw, 2.4rem); }
+  .title{ font-size: clamp(1.6rem, 3.2vw, 2.2rem); color:#fff; margin:0; }
+  .sub{ color:var(--muted); }
+
+  .grid{ display:grid; gap: clamp(14px, 2.5vw, 22px); }
+  @media (min-width:700px){ .cols-3{ grid-template-columns:repeat(3,1fr);} .cols-2{ grid-template-columns:repeat(2,1fr);} }
+
+  .card{
+    background: var(--panel);
+    border:1px solid var(--line);
+    border-radius: var(--radius);
+    padding: clamp(1rem, 2.2vw, 1.6rem);
+    box-shadow: 0 2px 0 rgba(255,255,255,.02) inset, 0 30px 60px rgba(0,0,0,.25);
+    transition: transform .18s ease, border-color .2s ease, box-shadow .2s ease;
+    will-change: transform;
+  }
+  .card:hover{ transform: translateY(-6px); border-color:#28324a; box-shadow: var(--shadow); }
+  .card h3{ margin:.2rem 0 .4rem; color:#fff; font-size:1.1rem; }
+  .card p{ color:var(--muted); margin:0; }
+  .tech{ display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
+  .chip{ padding:.35rem .6rem; font-size:.85rem; border:1px solid #243048; color:#dfe6ff; background:#0f1626; border-radius:999px; }
+
+  /* ============ PORTFOLIO CHARTS (SVG animated) ============ */
+  .project{ overflow:hidden; padding:0; display:grid; gap:0; }
+  .project-visual{ background: var(--panel-2); border-bottom:1px solid var(--line); aspect-ratio:16/9; display:grid; place-items:center; }
+  .project-body{ padding:1rem 1.25rem 1.25rem; }
+  .project h3{ margin:.25rem 0 .5rem; font-size:1.05rem; }
+  .chart{ width:100%; height:auto; }
+
+  /* animate bars with scaleY from bottom */
+  .bars rect{ transform-box: fill-box; transform-origin: bottom center; transform: scaleY(0); transition: transform .9s ease .05s; }
+  .animate .bars rect{ transform: scaleY(1); }
+  /* animate line drawing */
+  .line{ stroke-dasharray: 1200; stroke-dashoffset: 1200; transition: stroke-dashoffset 1.1s ease .15s; }
+  .animate .line{ stroke-dashoffset: 0; }
+  /* animate donut fill via dashoffset */
+  .donut{ stroke-dasharray: 440; stroke-dashoffset: 440; transition: stroke-dashoffset 1.2s ease .15s; }
+  .animate .donut.p92{ stroke-dashoffset: calc(440 - 440*0.92); }
+  .animate .donut.p80{ stroke-dashoffset: calc(440 - 440*0.80); }
+  .animate .donut.p72{ stroke-dashoffset: calc(440 - 440*0.72); }
+
+  /* ============ ABOUT / STATS ============ */
+  .stats{ display:grid; gap:12px; }
+  @media (min-width:600px){ .stats{ grid-template-columns:repeat(4,1fr); } }
+  .stat{ background: var(--panel); border:1px solid var(--line); border-radius:16px; padding:18px; text-align:center; }
+  .stat .num{ font-size:1.8rem; font-weight:900; color:#fff; }
+  .stat .lab{ color:var(--muted); }
+
+  /* ============ CONTACT ============ */
+  .form{ max-width:640px; margin:0 auto; }
+  .field{ margin-bottom:14px; }
+  .input,.select,.textarea{
+    width:100%; padding:14px; border-radius:12px; border:1px solid #1e2841;
+    background:#0e1524; color:#fff; outline:none; transition:border-color .2s ease, box-shadow .2s ease;
+  }
+  .input::placeholder,.textarea::placeholder{ color:#9aa4bb; }
+  .input:focus,.textarea:focus,.select:focus{ border-color:#2a3a63; box-shadow: 0 0 0 4px rgba(46,87,255,.14); }
+  .textarea{ min-height:120px; resize:vertical; }
+  .contact-info{ margin-top:16px; padding:14px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); text-align:center; color:var(--muted); }
+  .contact-info a{ color:#fff; }
+  .contact-info a:hover{ color: var(--accent-2); }
+
+  /* ============ FOOTER ============ */
+  footer{ border-top:1px solid var(--line); background:#0a0f1b; padding:28px 0; margin-top:30px; color:var(--muted); }
+  .foot-grid{ display:grid; gap:18px; }
+  @media (min-width:700px){ .foot-grid{ grid-template-columns:repeat(3,1fr); } }
+  .foot h4{ color:#fff; margin:0 0 8px; }
+  .social a{ font-size:1.25rem; margin-right:10px; display:inline-block; }
+
+  /* ============ REVEAL ============ */
+  .reveal{ opacity:0; transform: translateY(18px); transition: opacity .5s ease, transform .5s ease; }
+  .reveal.show{ opacity:1; transform: translateY(0); }
+  /* ===== ADVANCED HERO BG ===== */
+.hero{ position:relative; overflow:hidden; }
+.hero-bg{
+  position:absolute; inset:0; z-index:0; pointer-events:none;
+  background: radial-gradient(1200px 600px at 10% -10%, rgba(19,26,43,.5) 20%, transparent 55%),
+              radial-gradient(900px 600px at 110% 10%, rgba(14,22,38,.5) 10%, transparent 60%);
+}
+#netCanvas{
+  position:absolute; inset:0; width:100%; height:100%; display:block;
+  z-index: 2;           /* bond ABOVE images/videos */
+  pointer-events:none;  /* don't block clicks */
+}
+
+.hero-slides{
+  position:absolute; inset:0; overflow:hidden; mix-blend-mode:screen; opacity:.45;
+}
+.hero-slides img{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  transform: scale(1.08); opacity:0;
+  animation: heroFade 18s ease-in-out infinite;
+  filter: saturate(1.1) contrast(1.05);
+}
+.hero-slides img:nth-child(1){ animation-delay: 0s; }
+.hero-slides img:nth-child(2){ animation-delay: 6s; }
+.hero-slides img:nth-child(3){ animation-delay: 12s; }
+/* hero background video (under the bond) */
+.hero-video{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; opacity:0;
+  transition: opacity .6s ease;  /* smooth fade transition */
+  mix-blend-mode:screen;
+  pointer-events:none;
+  z-index:1;
+}
+/* keep same blend and allow fading images out */
+.hero-slides{ transition: opacity .8s ease; z-index:1; }
+.hero-slides.hide{ opacity:0; }
+.hero-slides{ display:none !important; }
+/* when we reveal the video */
+.hero-video.show{ opacity:.9; }
+
+@keyframes heroFade{
+  0%{ opacity:0; transform:scale(1.08); }
+  7%,33%{ opacity:1; transform:scale(1.0); }
+  40%,100%{ opacity:0; transform:scale(1.08); }
+}
+
+.hero .container{ position:relative; z-index:1; }
+
+</style>
+</head>
+
+<body>
+  <!-- subtle particles -->
+  <div class="particles" id="particles" aria-hidden="true"></div>
+
+  <!-- Header -->
+  <header>
+    <nav>
+      <div class="brand">
+        <div class="brand-badge">Y</div>
+        <span>Yingg Software</span>
+      </div>
+      <button class="menu-btn" aria-label="Open menu" aria-expanded="false">☰</button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#services">BI Services</a></li>
+        <li><a href="#portfolio">Projects</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a class="cta-small" href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section id="home" class="hero">
+  <div class="grid-bg" aria-hidden="true"></div>
+
+  <!-- ADVANCED HERO BACKGROUND -->
+  <div class="hero-bg">
+    <canvas id="netCanvas" aria-hidden="true"></canvas>
+<video class="hero-video" muted playsinline preload="auto"></video>
+    <!-- Optional background slideshow -->
+    <div class="hero-slides">
+      <img src="/bi2.jpg" alt="" />
+      <img src="/bi3.jpg" alt="" />
+    </div>
+  </div>
+
+  <div class="container hero-wrap">
+
+      <div class="eyebrow">Business Intelligence Excellence</div>
+      <h1>Data-Driven Solutions, Analytics Mastery & Strategic Insights</h1>
+      <div class="sub-rotator" id="subRotator">Analytics • Dashboards • Insights • Growth</div>
+      <p>Transform your business with cutting-edge BI analytics, advanced data visualization, and intelligent reporting solutions that drive strategic decision-making and accelerate growth.</p>
+      <div class="hero-actions">
+        <a href="#services" class="btn primary">Explore BI Solutions</a>
+        <a href="#portfolio" class="btn">View Our Projects</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services" class="section">
+    <div class="container">
+      <div class="head">
+        <h2 class="title">BI Analytics Services</h2>
+        <div class="sub">Comprehensive Business Intelligence Solutions</div>
+      </div>
+
+      <div class="grid cols-3">
+        <article class="card reveal">
+          <h3>Advanced Data Analytics</h3>
+          <p>ML, predictive modeling, and statistical analysis to uncover patterns and actionable insights.</p>
+          <div class="tech">
+            <span class="chip">Python</span><span class="chip">R</span><span class="chip">SQL</span><span class="chip">Tableau</span><span class="chip">Power BI</span>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <h3>Interactive Dashboards</h3>
+          <p>Real-time KPI monitoring and executive reporting for data-driven decisions across the org.</p>
+          <div class="tech">
+            <span class="chip">Power BI</span><span class="chip">Tableau</span><span class="chip">Qlik Sense</span><span class="chip">D3.js</span><span class="chip">Plotly</span>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <h3>Data Warehouse Solutions</h3>
+          <p>Scalable DWH, ETL, and data lake design for centralized management and high-performance analytics.</p>
+          <div class="tech">
+            <span class="chip">AWS</span><span class="chip">Azure</span><span class="chip">Snowflake</span><span class="chip">Spark</span><span class="chip">SSIS</span>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <h3>AI-Powered Insights</h3>
+          <p>Forecasting, segmentation, and automation using robust ML pipelines.</p>
+          <div class="tech">
+            <span class="chip">TensorFlow</span><span class="chip">PyTorch</span><span class="chip">scikit-learn</span><span class="chip">Azure ML</span><span class="chip">SageMaker</span>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <h3>ETL & Data Integration</h3>
+          <p>Reliable pipelines, quality checks, and orchestration for seamless analytics.</p>
+          <div class="tech">
+            <span class="chip">Airflow</span><span class="chip">Informatica</span><span class="chip">Talend</span><span class="chip">SSIS</span><span class="chip">Kafka</span>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <h3>Executive Reporting</h3>
+          <p>Automated reporting, scorecards, and C-level dashboards.</p>
+          <div class="tech">
+            <span class="chip">SSRS</span><span class="chip">Crystal Reports</span><span class="chip">Power BI</span><span class="chip">Tableau</span><span class="chip">Excel</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio with animated SVG charts -->
+  <section id="portfolio" class="section">
+    <div class="container">
+      <div class="head">
+        <h2 class="title">Featured BI Projects</h2>
+        <div class="sub">Transformative Analytics Solutions</div>
+      </div>
+
+      <div class="grid cols-3">
+        <!-- Project 1 -->
+        <article class="card project reveal">
+          <div class="project-visual">
+            <svg class="chart" viewBox="0 0 600 338" role="img" aria-label="Retail analytics">
+              <defs>
+                <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#8a7bff"/>
+                  <stop offset="100%" stop-color="#3b2dd6"/>
+                </linearGradient>
+              </defs>
+              <rect width="600" height="338" fill="#0f1524"/>
+              <!-- gridlines -->
+              <g stroke="#1b2440" stroke-width="1">
+                <line x1="50" y1="280" x2="560" y2="280"/>
+                <line x1="50" y1="220" x2="560" y2="220"/>
+                <line x1="50" y1="160" x2="560" y2="160"/>
+              </g>
+              <!-- bars (animated) -->
+              <g class="bars" fill="url(#g1)">
+                <rect x="70"  y="120" width="40" height="150" rx="6"/>
+                <rect x="130" y="90"  width="40" height="180" rx="6"/>
+                <rect x="190" y="150" width="40" height="120" rx="6"/>
+                <rect x="250" y="70"  width="40" height="200" rx="6"/>
+              </g>
+              <!-- line (animated draw) -->
+              <polyline class="line" fill="none" stroke="#22d3ee" stroke-width="4"
+                        points="70,240 130,190 190,220 250,160 310,180 370,140 430,120 490,100"/>
+            </svg>
+          </div>
+          <div class="project-body">
+            <h3>Retail Analytics Platform</h3>
+            <p>Real-time sales analytics, inventory optimization, and customer behavior insights. +25% revenue impact.</p>
+            <div class="tech"><span class="chip">Power BI</span><span class="chip">Azure SQL</span><span class="chip">SSIS</span></div>
+          </div>
+        </article>
+
+        <!-- Project 2 -->
+        <article class="card project reveal">
+          <div class="project-visual">
+            <svg class="chart" viewBox="0 0 600 338" role="img" aria-label="Financial area">
+              <rect width="600" height="338" fill="#0f1524"/>
+              <g stroke="#1b2440">
+                <line x1="50" y1="270" x2="560" y2="270"/>
+                <line x1="50" y1="220" x2="560" y2="220"/>
+                <line x1="50" y1="170" x2="560" y2="170"/>
+              </g>
+              <polyline class="line" fill="rgba(108,92,231,.28)" stroke="#6c5ce7" stroke-width="2"
+                        points="50,260 120,230 200,210 260,190 320,170 380,150 450,140 560,120 560,270 50,270"/>
+            </svg>
+          </div>
+          <div class="project-body">
+            <h3>Financial Dashboard Suite</h3>
+            <p>Automated P&amp;L, budget tracking, and predictive models for banking analytics.</p>
+            <div class="tech"><span class="chip">Tableau</span><span class="chip">Oracle</span><span class="chip">Python</span></div>
+          </div>
+        </article>
+
+        <!-- Project 3 -->
+        <article class="card project reveal">
+          <div class="project-visual">
+            <svg class="chart" viewBox="0 0 600 338" role="img" aria-label="Manufacturing KPIs">
+              <rect width="600" height="338" fill="#0f1524"/>
+              <g transform="translate(120,170)">
+                <circle r="70" fill="none" stroke="#1b2440" stroke-width="20"/>
+                <circle class="donut p92" r="70" fill="none" stroke="#22d3ee" stroke-width="20"
+                        transform="rotate(-90)" stroke-linecap="round"/>
+                <text x="0" y="8" text-anchor="middle" fill="#dfe6ff" font-size="22" font-weight="700">92%</text>
+              </g>
+              <g transform="translate(300,170)">
+                <circle r="70" fill="none" stroke="#1b2440" stroke-width="20"/>
+                <circle class="donut p80" r="70" fill="none" stroke="#6c5ce7" stroke-width="20"
+                        transform="rotate(-90)" stroke-linecap="round"/>
+                <text x="0" y="8" text-anchor="middle" fill="#dfe6ff" font-size="22" font-weight="700">80%</text>
+              </g>
+              <g transform="translate(480,170)">
+                <circle r="70" fill="none" stroke="#1b2440" stroke-width="20"/>
+                <circle class="donut p72" r="70" fill="none" stroke="#8a7bff" stroke-width="20"
+                        transform="rotate(-90)" stroke-linecap="round"/>
+                <text x="0" y="8" text-anchor="middle" fill="#dfe6ff" font-size="22" font-weight="700">72%</text>
+              </g>
+            </svg>
+          </div>
+          <div class="project-body">
+            <h3>Manufacturing Intelligence</h3>
+            <p>IoT-integrated monitoring, quality dashboards, and predictive maintenance (−40% downtime).</p>
+            <div class="tech"><span class="chip">Qlik Sense</span><span class="chip">IoT Hub</span><span class="chip">Machine Learning</span></div>
+          </div>
+        </article>
+
+        <!-- Project 4 -->
+        <article class="card project reveal">
+          <div class="project-visual">
+            <svg class="chart" viewBox="0 0 600 338" role="img" aria-label="Healthcare heatmap">
+              <rect width="600" height="338" fill="#0f1524"/>
+              <g>
+                <!-- 6x3 heat cells -->
+                <rect x="80"  y="80" width="60" height="60" rx="8" fill="#152136"/>
+                <rect x="150" y="80" width="60" height="60" rx="8" fill="#1a2742"/>
+                <rect x="220" y="80" width="60" height="60" rx="8" fill="#223154"/>
+                <rect x="290" y="80" width="60" height="60" rx="8" fill="#2a3b68"/>
+                <rect x="360" y="80" width="60" height="60" rx="8" fill="#34537f"/>
+                <rect x="430" y="80" width="60" height="60" rx="8" fill="#3d6a97"/>
+
+                <rect x="80"  y="150" width="60" height="60" rx="8" fill="#1a2742"/>
+                <rect x="150" y="150" width="60" height="60" rx="8" fill="#223154"/>
+                <rect x="220" y="150" width="60" height="60" rx="8" fill="#2a3b68"/>
+                <rect x="290" y="150" width="60" height="60" rx="8" fill="#34537f"/>
+                <rect x="360" y="150" width="60" height="60" rx="8" fill="#3d6a97"/>
+                <rect x="430" y="150" width="60" height="60" rx="8" fill="#4892b3"/>
+
+                <rect x="80"  y="220" width="60" height="60" rx="8" fill="#223154"/>
+                <rect x="150" y="220" width="60" height="60" rx="8" fill="#2a3b68"/>
+                <rect x="220" y="220" width="60" height="60" rx="8" fill="#34537f"/>
+                <rect x="290" y="220" width="60" height="60" rx="8" fill="#3d6a97"/>
+                <rect x="360" y="220" width="60" height="60" rx="8" fill="#4892b3"/>
+                <rect x="430" y="220" width="60" height="60" rx="8" fill="#56bcd0"/>
+              </g>
+            </svg>
+          </div>
+          <div class="project-body">
+            <h3>Healthcare Analytics</h3>
+            <p>Clinical visualization, outcomes analysis, and operational efficiency dashboards.</p>
+            <div class="tech"><span class="chip">Power BI</span><span class="chip">SQL Server</span><span class="chip">R</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="section">
+    <div class="container">
+      <div class="head">
+        <h2 class="title">About Yingg Software Solution</h2>
+        <div class="sub">We turn data into strategic business value.</div>
+      </div>
+
+      <div class="grid cols-2">
+        <article class="card reveal">
+          <p style="margin:0;">
+            We are a specialized Business Intelligence and Analytics company dedicated to transforming data into strategic business value.
+            With deep expertise in advanced analytics, data visualization, and BI platforms, we empower organizations to make data-driven decisions that drive growth and operational excellence.
+          </p>
+        </article>
+
+        <div class="stats reveal" id="stats">
+          <div class="stat">
+            <div class="num" data-target="50">0+</div>
+            <div class="lab">BI Projects Delivered</div>
+          </div>
+          <div class="stat">
+            <div class="num" data-target="10">0+</div>
+            <div class="lab">Happy Clients</div>
+          </div>
+          <div class="stat">
+            <div class="num" data-target="2">0+</div>
+            <div class="lab">Years Experience</div>
+          </div>
+          <div class="stat">
+            <div class="num" data-target="99">0%</div>
+            <div class="lab">Client Satisfaction</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="section">
+    <div class="container">
+      <div class="head">
+        <h2 class="title">Start Your BI Journey</h2>
+        <div class="sub">Let's discuss your analytics requirements</div>
+      </div>
+
+      <form class="form" id="contactForm" novalidate>
+        <div class="field"><input class="input" type="text" name="name" placeholder="Your Name" required></div>
+        <div class="field"><input class="input" type="email" name="email" placeholder="Your Email" required></div>
+        <div class="field"><input class="input" type="text" name="company" placeholder="Company Name" required></div>
+        <div class="field">
+          <select class="select" name="service" required>
+            <option value="">Select Service</option>
+            <option value="dashboard">Interactive Dashboards</option>
+            <option value="analytics">Data Analytics</option>
+            <option value="warehouse">Data Warehouse</option>
+            <option value="ai">AI-Powered Insights</option>
+            <option value="etl">ETL & Integration</option>
+            <option value="reporting">Executive Reporting</option>
+            <option value="dwh_design">Data Warehousing Design & Implementation</option>
+          </select>
+        </div>
+        <div class="field"><textarea class="textarea" name="message" rows="5" placeholder="Describe your BI requirements and current data challenges..." required></textarea></div>
+        <button class="btn primary" type="submit">Get Free BI Consultation</button>
+
+        <div class="contact-info">
+          <h4 style="margin:0 0 6px; color:#fff;">Contact Info</h4>
+        <div>📞 <a href="tel:+918888943161">+91 88889 43161</a></div>
+<div>📍 Baner, Pune, Maharashtra</div>
+
+<!-- Book Demo + WhatsApp -->
+<div style="margin-top:14px; display:flex; flex-wrap:wrap; gap:12px; justify-content:center;">
+  
+  <!-- Book a Demo Button -->
+  <a href="#contactForm" 
+     style="display:inline-flex;align-items:center;gap:8px;
+            background:linear-gradient(135deg,#6c5ce7,#8a7bff);
+            color:#fff;padding:10px 16px;border-radius:8px;
+            font-weight:600;text-decoration:none;
+            box-shadow:0 4px 14px rgba(108,92,231,.35);">
+    📅 Book a Free Demo ➜ 
+  </a>
+
+  <!-- WhatsApp Button -->
+  <a href="https://wa.me/918888943161" target="_blank" 
+     style="display:inline-flex;align-items:center;gap:8px;
+            background:#25D366;color:#fff;padding:10px 16px;
+            border-radius:8px;font-weight:600;text-decoration:none;
+            box-shadow:0 4px 12px rgba(37,211,102,.4);">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" 
+         alt="WhatsApp" width="22" height="22" style="display:block;">
+    Chat on WhatsApp
+  </a>
+
+</div>
+
+          
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container foot-grid">
+      <div>
+        <h4>Yingg Software Solution</h4>
+        <div>Transforming businesses through intelligent analytics and cutting-edge BI.</div>
+      </div>
+      <div>
+        <h4>BI Services</h4>
+        <div>Data Analytics • Dashboards • Data Warehousing • AI Insights • ETL • Executive Reporting</div>
+      </div>
+      <div>
+        <h4>Technologies</h4>
+        <div>Power BI • Tableau • Python • SQL • AWS • Snowflake • Azure • ML • Big Data</div>
+        <div class="social" style="margin-top:10px;">
+          <a href="#" aria-label="LinkedIn">🔗</a>
+          <a href="#" aria-label="GitHub">💻</a>
+          <a href="#" aria-label="Email">📧</a>
+        </div>
+      </div>
+    </div>
+    <div class="container" style="margin-top:14px;">© 2025 Yingg Software Solution Pvt Ltd. All rights reserved.</div>
+  </footer>
+
+<script>
+  /* ===== mobile menu ===== */
+  const menuBtn = document.querySelector('.menu-btn');
+  const navLinks = document.getElementById('navLinks');
+  if(menuBtn && navLinks){
+    menuBtn.addEventListener('click', ()=>{
+      const open = navLinks.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    navLinks.querySelectorAll('a').forEach(link=>{
+      link.addEventListener('click', ()=>{
+        navLinks.classList.remove('open');
+        menuBtn.setAttribute('aria-expanded','false');
+      });
+    });
+  }
+
+  /* ===== smooth scroll ===== */
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click', e=>{
+      const id = a.getAttribute('href');
+      const el = document.querySelector(id);
+      if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
+    });
+  });
+
+  /* ===== particles (very light) ===== */
+  /* ===== Canvas network (dots + lines) ===== */
+(function network(){
+  const canvas = document.getElementById('netCanvas');
+  if(!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  let w, h, dpr, points, maxDist;
+
+  function resize(){
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = canvas.clientWidth; h = canvas.clientHeight;
+    canvas.width = w * dpr; canvas.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const count = Math.round((w*h)/18000);
+    maxDist = Math.max(90, Math.min(160, Math.sqrt(w*h)/12));
+    points = Array.from({length: count}, () => ({
+      x: Math.random()*w,
+      y: Math.random()*h,
+      vx: (Math.random()-.5)*0.6,
+      vy: (Math.random()-.5)*0.6
+    }));
+  }
+  resize(); window.addEventListener('resize', resize);
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(prefersReduced) return;
+
+  function step(){
+    ctx.clearRect(0,0,w,h);
+    for(const p of points){
+      p.x += p.vx; p.y += p.vy;
+      if(p.x<0||p.x>w) p.vx*=-1;
+      if(p.y<0||p.y>h) p.vy*=-1;
+    }
+    for(let i=0;i<points.length;i++){
+      const p = points[i];
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 1.2, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(146,197,255,.65)';
+      ctx.fill();
+
+      for(let j=i+1;j<points.length;j++){
+        const q = points[j];
+        const dx = p.x-q.x, dy = p.y-q.y;
+        const dist = Math.hypot(dx,dy);
+        if(dist < maxDist){
+          const t = 1 - dist/maxDist;
+          ctx.beginPath();
+          ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y);
+          ctx.strokeStyle = `rgba(34,211,238,${0.22*t})`;
+          ctx.lineWidth = 1 * t;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(step);
+  }
+  step();
+})();
+
+/* ===== hero background: show images 5s, keep bond, then loop v1..v6 ===== */
+(function heroBgPlaylist(){
+  const slides = document.querySelector('.hero-slides'); // may be null
+
+
+  // Create TWO video elements for smooth transitions
+  const container = document.querySelector('.hero-bg');
+  const video1 = document.createElement('video');
+  const video2 = document.createElement('video');
+  
+  [video1, video2].forEach(v => {
+    v.className = 'hero-video';
+    v.muted = true;
+    v.playsInline = true;
+    v.preload = 'auto';
+    container.appendChild(v);
+  });
+
+  const files = ['v1','v2','v3','v4','v5','v6'].map(n => `/${n}.mp4`);
+  let i = 0;
+  let currentVideo = video1;
+  let nextVideo = video2;
+
+  // Preload next video
+  function preloadNext(video, index){
+    const src = files[index % files.length];
+    video.src = src;
+    video.load();
+  }
+
+  function playNext(){
+    // Swap references
+    [currentVideo, nextVideo] = [nextVideo, currentVideo];
+    
+    // Start playing current video with fade in
+    currentVideo.style.opacity = '0';
+    currentVideo.classList.add('show');
+    currentVideo.play().catch(()=>{});
+    
+    // Fade in current, fade out previous
+    setTimeout(() => {
+      currentVideo.style.opacity = '.9';
+      nextVideo.style.opacity = '0';
+    }, 50);
+
+    // Preload next video
+    i++;
+    preloadNext(nextVideo, i);
+
+    // Set up next transition
+    currentVideo.onended = playNext;
+  }
+
+const FIRST_DELAY_MS = 0;
+  setTimeout(()=>{
+    slides && slides.classList.add('hide');
+    preloadNext(video1, 0);
+    preloadNext(video2, 1);
+    i = 1;
+    playNext();
+  }, FIRST_DELAY_MS);
+})();
+
+
+  /* ===== reveal on scroll + chart animations ===== */
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('show');
+        // if it's a project, also add .animate to enable SVG transitions
+        const svg = entry.target.querySelector('.chart');
+        if(svg) entry.target.classList.add('animate');
+        // if stats, count up once
+        if(entry.target.id === 'stats'){ startCounters(); }
+        io.unobserve(entry.target);
+      }
+    });
+  }, {threshold:.18});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  /* ===== subtitle rotator (typing effect) ===== */
+  const subRotator = document.getElementById('subRotator');
+  const phrases = [
+    'Analytics • Dashboards • Insights • Growth',
+    'Data Quality • KPIs • Real-time Monitoring',
+    'Prediction • Segmentation • Forecasting',
+    'Executive Reports • Strategy • Impact'
+  ];
+  let pi = 0, typing = false;
+  function typePhrase(text, cb){
+    typing = true;
+    subRotator.textContent = '';
+    let i = 0;
+    (function step(){
+      if(i <= text.length){
+        subRotator.textContent = text.slice(0, i++);
+        setTimeout(step, 18);
+      }else{ typing = false; cb && setTimeout(cb, 1400); }
+    })();
+  }
+  function cycle(){
+    typePhrase(phrases[pi], ()=>{ pi=(pi+1)%phrases.length; cycle(); });
+  }
+  cycle();
+
+  /* ===== counters ===== */
+  let countersStarted = false;
+  function startCounters(){
+    if(countersStarted) return; countersStarted = true;
+    document.querySelectorAll('#stats .num').forEach(el=>{
+      const target = Number(el.dataset.target||0);
+      let cur = 0, step = Math.max(1, Math.round(target/60));
+      const plus = el.textContent.includes('+') ? '+' : (el.textContent.includes('%') ? '%' : '');
+      const timer = setInterval(()=>{
+        cur += step;
+        if(cur >= target){ cur = target; clearInterval(timer); }
+        el.textContent = cur + plus;
+      }, 24);
+    });
+  }
+
+  /* ===== form (front-end only) ===== */
+  const form = document.getElementById('contactForm');
+  if(form){
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const fields = form.querySelectorAll('[required]');
+      let ok = true;
+      fields.forEach(f=>{
+        if(!f.value.trim()){ ok=false; f.style.borderColor='#ff6161'; }
+        else{ f.style.borderColor='#2a3a63'; }
+      });
+      alert(ok ? 'Thank you! Our BI experts will contact you within 24 hours.' : 'Please fill in all required fields.');
+      ok && form.reset();
+    });
+  }
+</script>
+</body>
+</html>
