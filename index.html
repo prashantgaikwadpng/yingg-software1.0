@@ -246,6 +246,19 @@
   z-index: 2;           /* bond ABOVE images/videos */
   pointer-events:none;  /* don't block clicks */
 }
+
+.hero-slides{
+  position:absolute; inset:0; overflow:hidden; mix-blend-mode:screen; opacity:.45;
+}
+.hero-slides img{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  transform: scale(1.08); opacity:0;
+  animation: heroFade 18s ease-in-out infinite;
+  filter: saturate(1.1) contrast(1.05);
+}
+.hero-slides img:nth-child(1){ animation-delay: 0s; }
+.hero-slides img:nth-child(2){ animation-delay: 6s; }
+.hero-slides img:nth-child(3){ animation-delay: 12s; }
 /* hero background video (under the bond) */
 .hero-video{
   position:absolute; inset:0; width:100%; height:100%;
@@ -255,7 +268,18 @@
   pointer-events:none;
   z-index:1;
 }
+/* keep same blend and allow fading images out */
+.hero-slides{ transition: opacity .8s ease; z-index:1; }
+.hero-slides.hide{ opacity:0; }
 
+/* when we reveal the video */
+.hero-video.show{ opacity:.9; }
+
+@keyframes heroFade{
+  0%{ opacity:0; transform:scale(1.08); }
+  7%,33%{ opacity:1; transform:scale(1.0); }
+  40%,100%{ opacity:0; transform:scale(1.08); }
+}
 
 .hero .container{ position:relative; z-index:1; }
 
@@ -292,7 +316,13 @@
   <div class="hero-bg">
     <canvas id="netCanvas" aria-hidden="true"></canvas>
 <video class="hero-video" muted playsinline preload="auto"></video>
-  
+    <!-- Optional background slideshow -->
+    <div class="hero-slides">
+      <img src="/bi2.jpg" alt="" />
+      <img src="/bi3.jpg" alt="" />
+    </div>
+  </div>
+
   <div class="container hero-wrap">
 
       <div class="eyebrow">Business Intelligence Excellence</div>
@@ -717,12 +747,14 @@
   }
   step();
 })();
-/* ===== hero background: loop v1..v6 videos immediately ===== */
+
+/* ===== hero background: show images 5s, keep bond, then loop v1..v6 ===== */
 (function heroBgPlaylist(){
+  const slides = document.querySelector('.hero-slides');
+  if(!slides) return;
+
   // Create TWO video elements for smooth transitions
   const container = document.querySelector('.hero-bg');
-  if(!container) return;
-  
   const video1 = document.createElement('video');
   const video2 = document.createElement('video');
   
@@ -768,14 +800,14 @@
     // Set up next transition
     currentVideo.onended = playNext;
   }
-
-  // Start immediately - no delay
+  
+  // Start videos immediately without delay
+  slides.classList.add('hide');
   preloadNext(video1, 0);
   preloadNext(video2, 1);
   i = 1;
   playNext();
-})();
-
+  
   /* ===== reveal on scroll + chart animations ===== */
   const io = new IntersectionObserver((entries)=>{
     entries.forEach(entry=>{
