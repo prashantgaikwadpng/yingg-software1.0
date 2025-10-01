@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -263,11 +262,11 @@
 /* hero background video (under the bond) */
 .hero-video{
   position:absolute; inset:0; width:100%; height:100%;
-  object-fit:cover; opacity:0;        /* start hidden behind images */
-  transition: opacity .8s ease;
-  mix-blend-mode:screen;              /* match the image look */
+  object-fit:cover; opacity:0;
+  transition: opacity .6s ease;  /* smooth fade transition */
+  mix-blend-mode:screen;
   pointer-events:none;
-  z-index:1;                          /* below the bond (z=2) */
+  z-index:1;
 }
 /* keep same blend and allow fading images out */
 .hero-slides{ transition: opacity .8s ease; z-index:1; }
@@ -751,31 +750,63 @@
 
 /* ===== hero background: show images 5s, keep bond, then loop v1..v6 ===== */
 (function heroBgPlaylist(){
-  const video = document.querySelector('.hero-video');
   const slides = document.querySelector('.hero-slides');
-  if(!video || !slides) return;
+  if(!slides) return;
+
+  // Create TWO video elements for smooth transitions
+  const container = document.querySelector('.hero-bg');
+  const video1 = document.createElement('video');
+  const video2 = document.createElement('video');
+  
+  [video1, video2].forEach(v => {
+    v.className = 'hero-video';
+    v.muted = true;
+    v.playsInline = true;
+    v.preload = 'auto';
+    container.appendChild(v);
+  });
 
   const files = ['v1','v2','v3','v4','v5','v6'].map(n => `/${n}.mp4`);
   let i = 0;
+  let currentVideo = video1;
+  let nextVideo = video2;
+
+  // Preload next video
+  function preloadNext(video, index){
+    const src = files[index % files.length];
+    video.src = src;
+    video.load();
+  }
 
   function playNext(){
-    const src = files[i % files.length];
+    // Swap references
+    [currentVideo, nextVideo] = [nextVideo, currentVideo];
+    
+    // Start playing current video with fade in
+    currentVideo.style.opacity = '0';
+    currentVideo.classList.add('show');
+    currentVideo.play().catch(()=>{});
+    
+    // Fade in current, fade out previous
+    setTimeout(() => {
+      currentVideo.style.opacity = '.9';
+      nextVideo.style.opacity = '0';
+    }, 50);
+
+    // Preload next video
     i++;
-    while (video.firstChild) video.removeChild(video.firstChild);
-    const s = document.createElement('source');
-    s.src = src;
-    s.type = 'video/mp4';
-    video.appendChild(s);
-    video.load();
-    const start = video.play?.() || Promise.resolve();
-    start.catch(()=>{});
-    video.onended = playNext;
+    preloadNext(nextVideo, i);
+
+    // Set up next transition
+    currentVideo.onended = playNext;
   }
 
   const FIRST_DELAY_MS = 5000;
   setTimeout(()=>{
     slides.classList.add('hide');
-    video.classList.add('show');
+    preloadNext(video1, 0);
+    preloadNext(video2, 1);
+    i = 1;
     playNext();
   }, FIRST_DELAY_MS);
 })();
