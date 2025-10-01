@@ -271,7 +271,7 @@
 /* keep same blend and allow fading images out */
 .hero-slides{ transition: opacity .8s ease; z-index:1; }
 .hero-slides.hide{ opacity:0; }
-
+.hero-slides{ display:none !important; }
 /* when we reveal the video */
 .hero-video.show{ opacity:.9; }
 
@@ -750,8 +750,8 @@
 
 /* ===== hero background: show images 5s, keep bond, then loop v1..v6 ===== */
 (function heroBgPlaylist(){
-  const slides = document.querySelector('.hero-slides');
-  if(!slides) return;
+  const slides = document.querySelector('.hero-slides'); // may be null
+
 
   // Create TWO video elements for smooth transitions
   const container = document.querySelector('.hero-bg');
@@ -800,14 +800,18 @@
     // Set up next transition
     currentVideo.onended = playNext;
   }
-  
-  // Start videos immediately without delay
-  slides.classList.add('hide');
-  preloadNext(video1, 0);
-  preloadNext(video2, 1);
-  i = 1;
-  playNext();
-  
+
+const FIRST_DELAY_MS = 0;
+  setTimeout(()=>{
+    slides && slides.classList.add('hide');
+    preloadNext(video1, 0);
+    preloadNext(video2, 1);
+    i = 1;
+    playNext();
+  }, FIRST_DELAY_MS);
+})();
+
+
   /* ===== reveal on scroll + chart animations ===== */
   const io = new IntersectionObserver((entries)=>{
     entries.forEach(entry=>{
