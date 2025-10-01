@@ -260,6 +260,7 @@
 .hero-slides img:nth-child(2){ animation-delay: 6s; }
 .hero-slides img:nth-child(3){ animation-delay: 12s; }
 /* hero background video (under the bond) */
+
 .hero-video{
   position:absolute; inset:0; width:100%; height:100%;
   object-fit:cover; opacity:0;
@@ -267,7 +268,10 @@
   mix-blend-mode:screen;
   pointer-events:none;
   z-index:1;
+  background:#0f1524;     /* prevents flash on first frame */
+  will-change: opacity;   /* smoother GPU fade */
 }
+
 /* keep same blend and allow fading images out */
 .hero-slides{ transition: opacity .8s ease; z-index:1; }
 .hero-slides.hide{ opacity:0; }
@@ -748,67 +752,79 @@
   step();
 })();
 
-/* ===== hero background: show images 5s, keep bond, then loop v1..v6 ===== */
+/* ===== hero background: cross-fade v1..v6 with preload & overlap ===== */
 (function heroBgPlaylist(){
   const slides = document.querySelector('.hero-slides'); // may be null
 
-
-  // Create TWO video elements for smooth transitions
   const container = document.querySelector('.hero-bg');
-  const video1 = document.createElement('video');
-  const video2 = document.createElement('video');
-  
-  [video1, video2].forEach(v => {
+  const vA = document.createElement('video');
+  const vB = document.createElement('video');
+
+  [vA, vB].forEach(v=>{
     v.className = 'hero-video';
     v.muted = true;
     v.playsInline = true;
     v.preload = 'auto';
+    v.setAttribute('webkit-playsinline','');
     container.appendChild(v);
   });
 
-  const files = ['v1','v2','v3','v4','v5','v6'].map(n => `/${n}.mp4`);
-  let i = 0;
-  let currentVideo = video1;
-  let nextVideo = video2;
+  const files = ['v1','v2','v3','v4','v5','v6'].map(n=>`/${n}.mp4`);
+  let cur = vA, next = vB;
+  let index = 0;           // points to the CURRENT file in 'cur'
+  let crossfading = false;
 
-  // Preload next video
-  function preloadNext(video, index){
-    const src = files[index % files.length];
-    video.src = src;
-    video.load();
+  function loadInto(video, i){
+    return new Promise(resolve=>{
+      const src = files[i % files.length];
+      if (video.src.endsWith(src)) { resolve(); return; }
+      const onReady = ()=> resolve();
+      video.addEventListener('canplay', onReady, { once:true });
+      video.src = src;
+      video.load();
+    });
   }
 
-  function playNext(){
-    // Swap references
-    [currentVideo, nextVideo] = [nextVideo, currentVideo];
-    
-    // Start playing current video with fade in
-    currentVideo.style.opacity = '0';
-    currentVideo.classList.add('show');
-    currentVideo.play().catch(()=>{});
-    
-    // Fade in current, fade out previous
-    setTimeout(() => {
-      currentVideo.style.opacity = '.9';
-      nextVideo.style.opacity = '0';
-    }, 50);
-
-    // Preload next video
-    i++;
-    preloadNext(nextVideo, i);
-
-    // Set up next transition
-    currentVideo.onended = playNext;
-  }
-
-const FIRST_DELAY_MS = 0;
-  setTimeout(()=>{
+  async function start(){
+    // hide images immediately if present
     slides && slides.classList.add('hide');
-    preloadNext(video1, 0);
-    preloadNext(video2, 1);
-    i = 1;
-    playNext();
-  }, FIRST_DELAY_MS);
+
+    // prime first two videos
+    await loadInto(cur, index);       // v1
+    await cur.play().catch(()=>{});
+    cur.classList.add('show');        // fade in first video
+
+    await loadInto(next, index+1);    // preload v2
+
+    // monitor current video and cross-fade ~0.4s before it ends
+    cur.addEventListener('timeupdate', async function tick(){
+      if (crossfading || !cur.duration) return;
+      const remaining = cur.duration - cur.currentTime;
+      if (remaining <= 0.4){              // overlap window
+        crossfading = true;
+
+        // start next and fade it in
+        try { await next.play(); } catch(e){}
+        next.classList.add('show');       // fade in next
+        // after fade completes, hide old and rotate refs
+        setTimeout(async ()=>{
+          cur.classList.remove('show');   // fade out old
+          // swap refs
+          const old = cur;
+          cur = next;
+          next = old;
+
+          // advance index and preload the upcoming file
+          index = (index + 1) % files.length;
+          await loadInto(next, index + 1);
+
+          crossfading = false;
+        }, 450); // a hair longer than CSS .6s works too; 450ms feels snappy
+      }
+    });
+  }
+
+  start();
 })();
 
 
