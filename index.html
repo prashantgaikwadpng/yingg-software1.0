@@ -114,11 +114,6 @@
       linear-gradient(0deg, #111827 1px, transparent 1px) 0 0/100% 34px,
       linear-gradient(90deg, #111827 1px, transparent 1px) 0 0/34px 100%;
   }
-  .hero-wrap{
-  position: relative;      /* <-- ensure it sits above background/video */
-  z-index: 3;              /* <-- above canvas (z=2) and video (inside hero-bg) */
-  display:grid; gap:20px; place-items:center; text-align:center;
-}
 
 /* Optional smooth fade when toggling visibility */
 .hero-wrap{
@@ -132,8 +127,7 @@
 #home.dim-hero-text .hero-wrap{ opacity:.28; }
 
 
-/* When we want text hidden (for v3 only) */
-.hide-hero-text .hero-wrap{ opacity:0; pointer-events:none; }
+
 
   .eyebrow{ font-size:.9rem; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); font-weight:600; }
   .hero h1{
