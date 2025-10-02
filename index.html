@@ -108,18 +108,7 @@
   }
 
   /* ================= HERO ================= */
-  /* ================= HERO ================= */
-.hero{
-  position:relative; overflow:hidden; z-index:1;
-  padding: clamp(3rem, 6vw, 6rem) 0;
-
-  /* keep height stable on mobile while URL bar shows/hides */
-  min-height: calc(100vh - var(--header-h));
-}
-@supports (height: 100svh){
-  .hero{ min-height: calc(100svh - var(--header-h)); }
-}
-
+  .hero{ position:relative; overflow:hidden; padding: clamp(3rem, 6vw, 6rem) 0; z-index:1; }
   .grid-bg{ position:absolute; inset:0; pointer-events:none; opacity:.14;
     background:
       linear-gradient(0deg, #111827 1px, transparent 1px) 0 0/100% 34px,
@@ -138,45 +127,9 @@
   @keyframes headlineFlow{ 0%{ background-position: 0% 0; } 50%{ background-position: 100% 0; } 100%{ background-position: 0% 0; } }
   @keyframes glowPulse{ 0%,100%{ text-shadow: 0 0 8px rgba(0,255,255,0.55), 0 0 18px rgba(0,255,255,0.38); } 50%{ text-shadow: 0 0 18px rgba(138,123,255,0.85), 0 0 36px rgba(138,123,255,0.55); } }
 
-  .hero .sub-rotator{
-  display:block;
-  min-height: 2.4em;            /* reserve room = ~2 lines */
-  line-height: 1.2;
-  white-space: nowrap;           /* no wrap = no height change */
-  overflow: hidden;
-  text-overflow: ellipsis;       /* graceful on narrow phones */
-  font-weight:600; color:#e9ecff; font-variation-settings: "wght" 600;
-}
-
+  .hero .sub-rotator{ min-height: 1.6em; font-weight:600; color:#e9ecff; font-variation-settings: "wght" 600; }
   .hero p{ color:var(--muted); max-width:900px; }
   .hero-actions{ display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
-  /* Text sits above media */
-.hero .container{ position:relative; z-index:3; }
-
-/* Local contrast shield (does NOT touch the whole video) */
-.hero-wrap{
-  position:relative;
-  text-align:center;
-}
-.hero-wrap::before{ content:none; }
-/* Edge + glow so gradient headline never disappears */
-.eyebrow, .hero h1, .hero .sub-rotator, .hero p{
-  text-shadow:
-    0 0 1px rgba(0,0,0,.85),
-    0 2px 18px rgba(0,0,0,.55);
-}
-.hero h1{
-  -webkit-text-stroke: .6px rgba(0,0,0,.35);
-  text-stroke: .6px rgba(0,0,0,.35);
-}
-
-
-/* Subtle, almost invisible on v3 only */
-.hero-wrap.dim{
-  opacity:.22;                   /* “invisible but showing” */
-  transition: opacity .35s ease; /* smooth in/out */
-}
-
 
   .btn{ display:inline-flex; align-items:center; gap:.55rem; padding:.9rem 1.25rem; border-radius:14px; border:1px solid var(--line); color:#fff; background:#141a2a; font-weight:700; transition: transform .15s ease, border-color .2s ease, box-shadow .2s ease; }
   .btn:hover{ transform: translateY(-2px); border-color:#243048; box-shadow: var(--shadow); }
@@ -185,29 +138,13 @@
   /* Advanced Hero Background */
   .hero-bg{ position:absolute; inset:0; z-index:0; pointer-events:none; background: radial-gradient(1200px 600px at 10% -10%, rgba(19,26,43,.5) 20%, transparent 55%), radial-gradient(900px 600px at 110% 10%, rgba(14,22,38,.5) 10%, transparent 60%); }
   #netCanvas{ position:absolute; inset:0; width:100%; height:100%; display:block; z-index: 2; pointer-events:none; }
-  .hero-slides{
-  position:absolute; inset:0;
-  overflow:hidden;
-  mix-blend-mode:normal;
-  opacity:1; transition: opacity .8s ease;
-  z-index:0;
-  contain: layout paint size;   /* isolates layer, avoids micro reflows */
-}
-
+  .hero-slides{ position:absolute; inset:0; overflow:hidden; mix-blend-mode:screen; opacity:.45; transition: opacity .8s ease; z-index:1; }
   .hero-slides img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform: scale(1.08); opacity:0; animation: heroFade 18s ease-in-out infinite; filter: saturate(1.1) contrast(1.05); }
   .hero-slides img:nth-child(1){ animation-delay: 0s; }
   .hero-slides img:nth-child(2){ animation-delay: 6s; }
   .hero-slides img:nth-child(3){ animation-delay: 12s; }
   .hero-slides.hide{ opacity:0; }
-  .hero-video{
-  position:absolute; inset:0; width:100%; height:100%;
-  object-fit:cover;
-  opacity:0; transition: opacity .8s ease;
-  mix-blend-mode:normal; pointer-events:none; z-index:0;
-  contain: layout paint size;   /* same isolation for video */
-}
-
-
+  .hero-video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition: opacity .8s ease; mix-blend-mode:screen; pointer-events:none; z-index:1; }
   .hero-video.show{ opacity:.9; }
   @keyframes heroFade{ 0%{ opacity:0; transform:scale(1.08); } 7%,33%{ opacity:1; transform:scale(1.0); } 40%,100%{ opacity:0; transform:scale(1.08); } }
 
@@ -273,10 +210,6 @@
   /* ================= REVEAL ================= */
   .reveal{ opacity:0; transform: translateY(18px); transition: opacity .5s ease, transform .5s ease; }
   .reveal.show{ opacity:1; transform: translateY(0); }
-  /* reduce rubber-band & layout thrash on mobile */
-html{ scroll-behavior:smooth; }
-body{ overscroll-behavior-y: none; }
-
 </style>
 </head>
 
@@ -686,39 +619,25 @@ body{ overscroll-behavior-y: none; }
     step();
   })();
 
-    /* ============== hero background playlist ============== */
+  /* ============== hero background playlist ============== */
   (function heroBgPlaylist(){
-    const video  = document.querySelector('.hero-video');
+    const video = document.querySelector('.hero-video');
     const slides = document.querySelector('.hero-slides');
-    const heroWrap = document.querySelector('.hero-wrap');
-    if(!video || !slides || !heroWrap) return;
-
+    if(!video || !slides) return;
     const files = ['v1','v2','v3','v4','v5','v6'].map(n => `/${n}.mp4`);
     let i = 0;
-
     function playNext(){
       const src = files[i % files.length]; i++;
-
-      // v3 = make text barely visible; others = normal
-      if (src.includes('/v3.mp4')) {
-        heroWrap.classList.add('dim');
-      } else {
-        heroWrap.classList.remove('dim');
-      }
-
       while (video.firstChild) video.removeChild(video.firstChild);
       const s = document.createElement('source'); s.src = src; s.type = 'video/mp4';
       video.appendChild(s); video.load();
-
       const start = video.play?.() || Promise.resolve();
-      start.catch(()=>{ /* autoplay blocked: keep images visible */ });
+      start.then(()=>{ /* ok */ }).catch(()=>{ /* autoplay blocked: keep images visible */ });
       video.onended = playNext;
     }
-
     const FIRST_DELAY_MS = 5000;
     setTimeout(()=>{ slides.classList.add('hide'); video.classList.add('show'); playNext(); }, FIRST_DELAY_MS);
   })();
-
 
   /* ============== reveal on scroll + chart anims ============== */
   const io = new IntersectionObserver((entries)=>{
