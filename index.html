@@ -240,6 +240,33 @@
     min-height: calc(var(--vh, 1vh) * 100);
   }
 }
+/* --- Stabilize hero height on mobile (prevents auto “flip”) --- */
+#home.hero{
+  /* Modern, stable height on mobile UI bars */
+  min-height: 100svh;
+}
+
+/* Fallback for browsers without svh */
+@supports not (height: 100svh){
+  #home.hero{ min-height: calc(var(--vh, 1vh) * 100); }
+}
+
+/* Reduce Android jank + prevent rubber-band bounce */
+@media (max-width: 900px){
+  html, body{
+    overscroll-behavior-y: contain;
+    overflow-x: hidden;
+  }
+}
+
+/* Ensure the rotating subtitle can’t change row height */
+.sub-rotator{
+  display:block;
+  height: 1.6em;          /* was min-height; fix the line-box height */
+  line-height: 1.6em;
+  white-space: nowrap;     /* prevents wrap that can nudge layout */
+}
+
 
 </style>
 </head>
@@ -652,32 +679,35 @@
 
   /* ============== hero background playlist ============== */
   (function heroBgPlaylist(){
-    const video = document.querySelector('.hero-video');
-    const slides = document.querySelector('.hero-slides');
-    if(!video || !slides) return;
-    const files = ['v1','v2','v3','v4','v5','v6'].map(n => `/${n}.mp4`);
-    let i = 0;
-   function playNext(){
-  const src = files[i % files.length]; i++;
+  const video  = document.querySelector('.hero-video');
+  const slides = document.querySelector('.hero-slides');
+  if(!video || !slides) return;
 
-  // v3 => dim text; others => full visibility
-  const home = document.getElementById('home');
-  if (home) home.classList.toggle('dim-hero-text', src.includes('/v3.mp4'));
+  const isAndroid = /android/i.test(navigator.userAgent);
+  if (isAndroid){
+    // keep slides visible; do not start video on Android (prevents auto flip)
+    slides.classList.remove('hide');
+    video.classList.remove('show');
+    return;
+  }
 
-  while (video.firstChild) video.removeChild(video.firstChild);
-  const s = document.createElement('source'); s.src = src; s.type = 'video/mp4';
-  video.appendChild(s); video.load();
+  const files = ['v1','v2','v3','v4','v5','v6'].map(n => `/${n}.mp4`);
+  let i = 0;
+  function playNext(){
+    const src = files[i++ % files.length];
+    const home = document.getElementById('home');
+    if (home) home.classList.toggle('dim-hero-text', src.includes('/v3.mp4'));
+    while (video.firstChild) video.removeChild(video.firstChild);
+    const s = document.createElement('source'); s.src = src; s.type = 'video/mp4';
+    video.appendChild(s); video.load();
+    (video.play?.()||Promise.resolve()).catch(()=>{});
+    video.onended = playNext;
+  }
 
-  const start = video.play?.() || Promise.resolve();
-  start.catch(()=>{ /* autoplay blocked: slides stay; text already visible/dim as set */ });
+  const FIRST_DELAY_MS = 5000;
+  setTimeout(()=>{ slides.classList.add('hide'); video.classList.add('show'); playNext(); }, FIRST_DELAY_MS);
+})();
 
-  video.onended = playNext;
-}
-
-
-    const FIRST_DELAY_MS = 5000;
-    setTimeout(()=>{ slides.classList.add('hide'); video.classList.add('show'); playNext(); }, FIRST_DELAY_MS);
-  })();
 
   /* ============== reveal on scroll + chart anims ============== */
   const io = new IntersectionObserver((entries)=>{
@@ -742,6 +772,24 @@
   }
   window.addEventListener('orientationchange', setVH);
   window.addEventListener('resize', setVH);
+})();
+/* --- Stable visual-viewport height for Android --- */
+(function stableVH(){
+  // Only apply when needed
+  var isAndroid = /android/i.test(navigator.userAgent);
+  function setVH(){
+    var vh = (window.visualViewport ? visualViewport.height : window.innerHeight) * 0.01;
+    document.documentElement.style.setProperty('--vh', vh + 'px');
+  }
+  if(isAndroid){
+    setVH();
+    if(window.visualViewport){
+      visualViewport.addEventListener('resize', setVH);
+      visualViewport.addEventListener('scroll', setVH);
+    }
+    window.addEventListener('orientationchange', setVH);
+    window.addEventListener('resize', setVH);
+  }
 })();
 
 </script>
