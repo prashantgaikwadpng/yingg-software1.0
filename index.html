@@ -658,7 +658,7 @@
     const video = document.querySelector('.hero-video');
     const slides = document.querySelector('.hero-slides');
     if(!video || !slides) return;
-    const files = ['v1','v2','v3','v4','v5','v6'].map(n => `/${n}.mp4`);
+    const files = ['v2','v3','v4','v5','v6'].map(n => `/${n}.mp4`);
     let i = 0;
    function playNext(){
   const src = files[i % files.length]; i++;
