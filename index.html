@@ -130,6 +130,45 @@
   .hero .sub-rotator{ min-height: 1.6em; font-weight:600; color:#e9ecff; font-variation-settings: "wght" 600; }
   .hero p{ color:var(--muted); max-width:900px; }
   .hero-actions{ display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
+  /* Text sits above media */
+.hero .container{ position:relative; z-index:3; }
+
+/* Local contrast shield (does NOT touch the whole video) */
+.hero-wrap{
+  position:relative;
+  text-align:center;
+}
+.hero-wrap::before{
+  content:"";
+  position:absolute; inset:-8px -14px;
+  border-radius:22px;
+  background:
+    radial-gradient(120% 140% at 50% 45%,
+      rgba(0,0,0,.42) 0%,
+      rgba(0,0,0,.24) 55%,
+      rgba(0,0,0,.10) 100%);
+  backdrop-filter: saturate(120%) contrast(92%) blur(1.4px);
+  -webkit-backdrop-filter: saturate(120%) contrast(92%) blur(1.4px);
+  z-index:-1;
+}
+
+/* Edge + glow so gradient headline never disappears */
+.eyebrow, .hero h1, .hero .sub-rotator, .hero p{
+  text-shadow:
+    0 0 1px rgba(0,0,0,.95),
+    0 2px 24px rgba(0,0,0,.72);
+}
+.hero h1{
+  -webkit-text-stroke: .8px rgba(0,0,0,.45);
+  text-stroke: .8px rgba(0,0,0,.45);
+}
+
+/* Smoothly hide hero text when v3 plays */
+.hero-wrap.off{
+  opacity:0; transform: translateY(8px);
+  transition: opacity .35s ease, transform .35s ease;
+}
+
 
   .btn{ display:inline-flex; align-items:center; gap:.55rem; padding:.9rem 1.25rem; border-radius:14px; border:1px solid var(--line); color:#fff; background:#141a2a; font-weight:700; transition: transform .15s ease, border-color .2s ease, box-shadow .2s ease; }
   .btn:hover{ transform: translateY(-2px); border-color:#243048; box-shadow: var(--shadow); }
@@ -139,28 +178,15 @@
   .hero-bg{ position:absolute; inset:0; z-index:0; pointer-events:none; background: radial-gradient(1200px 600px at 10% -10%, rgba(19,26,43,.5) 20%, transparent 55%), radial-gradient(900px 600px at 110% 10%, rgba(14,22,38,.5) 10%, transparent 60%); }
   #netCanvas{ position:absolute; inset:0; width:100%; height:100%; display:block; z-index: 2; pointer-events:none; }
   .hero-slides{ position:absolute; inset:0; overflow:hidden; mix-blend-mode:normal; opacity:1; transition: opacity .8s ease; z-index:0; }
-
   .hero-slides img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform: scale(1.08); opacity:0; animation: heroFade 18s ease-in-out infinite; filter: saturate(1.1) contrast(1.05); }
   .hero-slides img:nth-child(1){ animation-delay: 0s; }
   .hero-slides img:nth-child(2){ animation-delay: 6s; }
   .hero-slides img:nth-child(3){ animation-delay: 12s; }
   .hero-slides.hide{ opacity:0; }
   .hero-video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition: opacity .8s ease; mix-blend-mode:normal; pointer-events:none; z-index:0; }
-  .hero-video.show{ opacity:.1; }
-  @keyframes heroFade{ 0%{ opacity:0; transform:scale(1.08); } 7%,33%{ opacity:1; transform:scale(1.0); } 40%,100%{ opacity:0; transform:scale(1.08); } }
-/* Keep hero text razor-clear on bright frames */
-.eyebrow, .hero h1, .hero .sub-rotator, .hero p{
-  text-shadow:
-    0 0 1px rgba(0,0,0,.95),
-    0 2px 26px rgba(0,0,0,.78),
-    0 0 22px rgba(0,0,0,.65);
-}
 
-/* Thin edge so your gradient headline never washes out */
-.hero h1{
-  -webkit-text-stroke: 0.7px rgba(0,0,0,.45);
-  text-stroke: 0.7px rgba(0,0,0,.45); /* harmless where unsupported */
-}
+  .hero-video.show{ opacity:.9; }
+  @keyframes heroFade{ 0%{ opacity:0; transform:scale(1.08); } 7%,33%{ opacity:1; transform:scale(1.0); } 40%,100%{ opacity:0; transform:scale(1.08); } }
 
   /* ================= SECTIONS / CARDS ================= */
   .section{ padding: clamp(3rem, 6vw, 6rem) 0; }
@@ -641,6 +667,26 @@
     const files = ['v1','v2','v3','v4','v5','v6'].map(n => `/${n}.mp4`);
     let i = 0;
     function playNext(){
+      function playNext(){
+  const src = files[i % files.length]; i++;
+
+  /* ▼ Add this block ▼ */
+  const heroWrap = document.querySelector('.hero-wrap');
+  if (src.includes('/v3.mp4')) {
+    heroWrap && heroWrap.classList.add('off');   // hide text on v3
+  } else {
+    heroWrap && heroWrap.classList.remove('off'); // show text on others
+  }
+  /* ▲ Add this block ▲ */
+
+  while (video.firstChild) video.removeChild(video.firstChild);
+  const s = document.createElement('source'); s.src = src; s.type = 'video/mp4';
+  video.appendChild(s); video.load();
+  const start = video.play?.() || Promise.resolve();
+  start.catch(()=>{ /* autoplay blocked: keep images visible */ });
+  video.onended = playNext;
+}
+
       const src = files[i % files.length]; i++;
       while (video.firstChild) video.removeChild(video.firstChild);
       const s = document.createElement('source'); s.src = src; s.type = 'video/mp4';
