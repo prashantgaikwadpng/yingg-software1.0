@@ -121,7 +121,16 @@
 }
 
 /* Optional smooth fade when toggling visibility */
-.hero-wrap{ transition: opacity .25s ease; }
+.hero-wrap{
+  position: relative;      /* keep text above video */
+  z-index: 3;              /* above canvas (z=2) & video */
+  display:grid; gap:20px; place-items:center; text-align:center;
+  transition: opacity .25s ease; /* smooth dim */
+}
+
+/* Dim hero text ONLY for v3 (no background pad) */
+#home.dim-hero-text .hero-wrap{ opacity:.28; }
+
 
 /* When we want text hidden (for v3 only) */
 .hide-hero-text .hero-wrap{ opacity:0; pointer-events:none; }
@@ -637,25 +646,23 @@
     if(!video || !slides) return;
     const files = ['v1','v2','v3','v4','v5','v6'].map(n => `/${n}.mp4`);
     let i = 0;
-    function playNext(){
+   function playNext(){
   const src = files[i % files.length]; i++;
 
-  // toggle hero text visibility: hide only on v3
-  if (src.includes('/v3.mp4')) {
-    document.body.classList.add('hide-hero-text');
-  } else {
-    document.body.classList.remove('hide-hero-text');
-  }
+  // v3 => dim text; others => full visibility
+  const home = document.getElementById('home');
+  if (home) home.classList.toggle('dim-hero-text', src.includes('/v3.mp4'));
 
   while (video.firstChild) video.removeChild(video.firstChild);
   const s = document.createElement('source'); s.src = src; s.type = 'video/mp4';
   video.appendChild(s); video.load();
 
   const start = video.play?.() || Promise.resolve();
-  start.then(()=>{ /* ok */ }).catch(()=>{ /* autoplay blocked: keep images visible */ });
+  start.catch(()=>{ /* autoplay blocked: slides stay; text already visible/dim as set */ });
 
   video.onended = playNext;
 }
+
 
     const FIRST_DELAY_MS = 5000;
     setTimeout(()=>{ slides.classList.add('hide'); video.classList.add('show'); playNext(); }, FIRST_DELAY_MS);
