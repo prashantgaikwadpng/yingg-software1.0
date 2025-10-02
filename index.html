@@ -230,6 +230,17 @@
   /* ================= REVEAL ================= */
   .reveal{ opacity:0; transform: translateY(18px); transition: opacity .5s ease, transform .5s ease; }
   .reveal.show{ opacity:1; transform: translateY(0); }
+  /* ---- Android-only stability helpers ---- */
+@media (max-width: 900px) {
+  html, body { 
+    overscroll-behavior-y: contain;   /* avoid bounce/jank on Android */
+  }
+  /* Use dynamic viewport height var (set by JS below) */
+  #home.hero { 
+    min-height: calc(var(--vh, 1vh) * 100);
+  }
+}
+
 </style>
 </head>
 
@@ -712,6 +723,27 @@
       if(ok) form.reset();
     });
   }
+  /* ---- Fix Android visual viewport "flip" ---- */
+(function fixAndroidFlip(){
+  var ua = (navigator.userAgent || "").toLowerCase();
+  var isAndroid = ua.includes("android") && ua.includes("mobile");
+  if (!isAndroid) return;
+
+  function setVH() {
+    // Use the visual viewport height to keep layout stable when address bar shows/hides
+    var h = (window.visualViewport ? window.visualViewport.height : window.innerHeight) * 0.01;
+    document.documentElement.style.setProperty('--vh', h + 'px');
+  }
+
+  setVH();
+  // Update when the visual viewport changes (address bar show/hide, rotate, etc.)
+  if (window.visualViewport) {
+    visualViewport.addEventListener('resize', setVH);
+  }
+  window.addEventListener('orientationchange', setVH);
+  window.addEventListener('resize', setVH);
+})();
+
 </script>
 </body>
 </html>
