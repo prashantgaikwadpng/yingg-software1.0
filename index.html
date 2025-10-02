@@ -334,7 +334,10 @@
     z-index:2000 !important;
   }
 }
-
+@media (prefers-reduced-motion: reduce){
+  .hero-video{ display:none !important; }
+  .hero-slides{ opacity:1 !important; }
+}
 </style>
 </head>
 
@@ -367,7 +370,7 @@
     <!-- Advanced hero background -->
     <div class="hero-bg" aria-hidden="true">
       <canvas id="netCanvas"></canvas>
-      <video class="hero-video" muted playsinline preload="metadata"></video>
+      <video class="hero-video" muted playsinline preload="metadata" poster="/bi2.jpg"></video>
       <div class="hero-slides">
         <img src="/bi2.jpg" alt="BI hero background" loading="eager" decoding="async"/>
       </div>
@@ -818,32 +821,58 @@
     step();
   })();
 
-  /* ============== hero background playlist (kept) ============== */
-  (function heroBgPlaylist(){
-    const video = document.querySelector('.hero-video');
-    const slides = document.querySelector('.hero-slides');
-    if(!video || !slides) return;
-    const files = ['v2','v3','v4','v5','v6'].map(n => `/${n}.mp4`);
-    let i = 0;
-    function playNext(){
-      const src = files[i % files.length]; i++;
+  /* ============== hero background playlist (stable) ============== */
+(function heroBgPlaylist(){
+  const video = document.querySelector('.hero-video');
+  const slides = document.querySelector('.hero-slides');
+  if(!video || !slides) return;
 
-      // v3 => dim text; others => full visibility
-      const home = document.getElementById('home');
-      if (home) home.classList.toggle('dim-hero-text', src.includes('/v3.mp4'));
+  const files = ['v2','v3','v4','v5','v6'].map(n => `/${n}.mp4`);
+  let i = 0, failCount = 0;
 
-      while (video.firstChild) video.removeChild(video.firstChild);
-      const s = document.createElement('source'); s.src = src; s.type = 'video/mp4';
-      video.appendChild(s); video.load();
+  function setSource(src){
+    while (video.firstChild) video.removeChild(video.firstChild);
+    const s = document.createElement('source'); s.src = src; s.type = 'video/mp4';
+    video.appendChild(s); video.load();
+  }
 
-      const start = video.play?.() || Promise.resolve();
-      start.catch(()=>{ /* autoplay blocked: slides stay; text already visible/dim as set */ });
+  function playNext(){
+    const src = files[i % files.length]; i++;
 
-      video.onended = playNext;
+    // dim text on specific clip if desired
+    const home = document.getElementById('home');
+    if (home) home.classList.toggle('dim-hero-text', src.includes('/v3.mp4'));
+
+    setSource(src);
+
+    let started = false;
+    const safety = setTimeout(() => {
+      if(!started){ video.classList.remove('show'); slides.classList.remove('hide'); }
+    }, 3500);
+
+    function onReady(){
+      if(started) return;
+      started = true; clearTimeout(safety);
+      slides.classList.add('hide'); video.classList.add('show');
+      (video.play?.() || Promise.resolve()).catch(()=>{
+        video.classList.remove('show'); slides.classList.remove('hide');
+      });
     }
-    const FIRST_DELAY_MS = 5000;
-    setTimeout(()=>{ slides.classList.add('hide'); video.classList.add('show'); playNext(); }, FIRST_DELAY_MS);
-  })();
+    function onError(){
+      clearTimeout(safety);
+      failCount++; video.classList.remove('show'); slides.classList.remove('hide');
+      if(failCount < files.length) playNext();
+    }
+
+    video.oncanplay = onReady;
+    video.oncanplaythrough = onReady;
+    video.onerror = onError;
+    video.onended = playNext;
+  }
+
+  // start shortly after load so layout is stable
+  setTimeout(playNext, 500);
+})();
 
   /* ============== reveal on scroll + chart anims ============== */
   const io = new IntersectionObserver((entries)=>{
