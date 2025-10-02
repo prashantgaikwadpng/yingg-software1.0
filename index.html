@@ -287,6 +287,40 @@
   :is(a, button, .chip, .card, .input, .select, .textarea):focus-visible{
     outline: none; box-shadow: 0 0 0 4px rgba(34,211,238,.18);
   }
+  /* ======== BI Demo Reports ======== */
+.report-grid{ display:grid; gap:clamp(14px,2.5vw,22px); }
+@media (min-width:700px){ .report-grid.cols-2{ grid-template-columns:repeat(2,1fr); } .report-grid.cols-3{ grid-template-columns:repeat(3,1fr); } }
+
+.report-card{
+  display:grid; gap:12px; padding:14px; border-radius:16px;
+  background: linear-gradient(180deg,#0f1524,#0c1220);
+  border:1px solid var(--line);
+  box-shadow: 0 24px 60px rgba(0,0,0,.28);
+  transition: transform .18s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.report-card:hover{ transform:translateY(-4px); border-color:#28324a; box-shadow: var(--shadow); }
+
+.report-visual{ position:relative; border-radius:12px; overflow:hidden; background:#0b1120; }
+.report-img{
+  width:100%; height:auto; display:block; object-fit:cover;
+  transform:scale(1.01); transition: transform .25s ease, opacity .25s ease;
+}
+.report-card:hover .report-img{ transform:scale(1.03); }
+
+.kpis{ display:flex; flex-wrap:wrap; gap:8px; margin:4px 0 0; }
+.kpis .chip{ background:#0f1628; border-color:#243048; }
+
+/* Lightbox */
+#lightbox{ position:fixed; inset:0; z-index:2000; display:none; align-items:center; justify-content:center;
+  background: rgba(5,8,14,.72); backdrop-filter: blur(6px); padding:18px; }
+#lightbox.open{ display:flex; }
+#lightbox img{ max-width:min(1100px, 96vw); max-height:86vh; border-radius:14px; box-shadow:0 30px 70px rgba(0,0,0,.5); }
+#lightbox .close{
+  position:absolute; top:16px; right:16px; background:#0f1422; color:#fff; border:1px solid #2a3a63;
+  padding:.5rem .8rem; border-radius:10px; font-weight:700; cursor:pointer;
+}
+#lightbox .close:focus-visible{ outline:none; box-shadow:0 0 0 4px rgba(34,211,238,.18); }
+
 </style>
 </head>
 
@@ -523,6 +557,133 @@
       </div>
     </div>
   </section>
+<!-- Healthcare Highlight -->
+<section id="healthcare-highlight" class="section">
+  <div class="container">
+    <div class="head">
+      <h2 class="title">Healthcare Analytics</h2>
+      <div class="sub">Clinical visualization, outcomes analysis, and operational efficiency dashboards.</div>
+    </div>
+
+    <div class="report-grid cols-2">
+      <article class="card">
+        <h3 style="margin-top:0">What you get</h3>
+        <p>
+          Executive-ready dashboards for patient outcomes, bed/utilization, and bottleneck detection across departments.
+          Monitor throughput, reduce wait times, and surface cost-to-serve by service line.
+        </p>
+        <div class="kpis">
+          <span class="chip">Readmission root cause</span>
+          <span class="chip">LOS variance</span>
+          <span class="chip">OR/OPD utilization</span>
+          <span class="chip">Claims denial patterns</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3 style="margin-top:0">Tech we use</h3>
+        <div class="tech">
+          <span class="chip">Power BI</span>
+          <span class="chip">SQL Server</span>
+          <span class="chip">R</span>
+        </div>
+        <p style="margin-top:10px">
+          Secure PHI pipelines with row-level security and automated quality checks. Predictive triage and cohort analysis using R models embedded in Power BI.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- BI Demo Reports -->
+<section id="bi-demos" class="section">
+  <div class="container">
+    <div class="head">
+      <h2 class="title">BI Demo Reports</h2>
+      <div class="sub">A taste of the reports we deliver—and how they impact revenue, cash, and retention.</div>
+    </div>
+
+    <div class="report-grid cols-2">
+      <!-- AR1 -->
+      <figure class="report-card reveal">
+        <div class="report-visual">
+          <img class="report-img" src="/AR1.jpg" alt="Accounts Receivable Overview dashboard demo" data-zoom="/AR1.jpg">
+        </div>
+        <figcaption>
+          <h3>Accounts Receivable – Overview</h3>
+          <p>
+            See total outstanding AR, DSO, aging buckets, and trend by customer group.
+            Typical impact: <strong>-5–12 days DSO</strong>, improved collections prioritization, and cash-flow predictability.
+          </p>
+          <div class="kpis">
+            <span class="chip">Aging buckets</span><span class="chip">AR trend</span><span class="chip">Top overdue</span>
+          </div>
+        </figcaption>
+      </figure>
+
+      <!-- AR2 -->
+      <figure class="report-card reveal">
+        <div class="report-visual">
+          <img class="report-img" src="/AR2.jpg" alt="Accounts Receivable Insights dashboard demo" data-zoom="/AR2.jpg">
+        </div>
+        <figcaption>
+          <h3>Accounts Receivable – Insights</h3>
+          <p>
+            Drill into high-risk customers and payment term adherence to target the right follow-ups.
+            Result: <strong>faster dispute resolution</strong>, fewer write-offs, and a healthier cash cycle.
+          </p>
+          <div class="kpis">
+            <span class="chip">Risk cohorts</span><span class="chip">Promise-to-pay</span><span class="chip">Collector actions</span>
+          </div>
+        </figcaption>
+      </figure>
+
+      <!-- Churn -->
+      <figure class="report-card reveal">
+        <div class="report-visual">
+          <img class="report-img" src="/Churn.jpg" alt="Customer Churn dashboard demo" data-zoom="/Churn.jpg">
+        </div>
+        <figcaption>
+          <h3>Customer Churn Dashboard</h3>
+          <p>
+            Identify churn drivers (plan, tenure, billing) and track retention campaigns.
+            Expect <strong>2–6% churn reduction</strong> by focusing on high-risk segments and early interventions.
+          </p>
+          <div class="kpis">
+            <span class="chip">Churn cohorts</span><span class="chip">Ticket load vs tenure</span><span class="chip">Retention lift</span>
+          </div>
+        </figcaption>
+      </figure>
+
+      <!-- Inquiry -->
+      <figure class="report-card reveal">
+        <div class="report-visual">
+          <img class="report-img" src="/Inquiry.png" alt="Inquiry analysis dashboard demo" data-zoom="/Inquiry.png">
+        </div>
+        <figcaption>
+          <h3>Inquiry Analysis</h3>
+          <p>
+            Visualize response times, pipeline stages, and win/loss drivers by hour and weekday.
+            Typical gains: <strong>+8–18% win rate</strong> and shorter lead-to-quote cycles.
+          </p>
+          <div class="kpis">
+            <span class="chip">Stage conversion</span><span class="chip">SLA adherence</span><span class="chip">Rep performance</span>
+          </div>
+        </figcaption>
+      </figure>
+    </div>
+
+    <div style="text-align:center; margin-top:18px;">
+      <a href="#contact" class="btn primary">Get a Live BI Demo</a>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div id="lightbox" aria-hidden="true">
+  <button class="close" aria-label="Close preview">Close ✕</button>
+  <img alt="">
+</div>
 
   <!-- About -->
   <section id="about" class="section">
@@ -791,5 +952,37 @@
     });
   }
 </script>
+<script>
+  /* ===== Lightbox for report images ===== */
+  (function(){
+    const box = document.getElementById('lightbox');
+    if(!box) return;
+    const img = box.querySelector('img');
+    const closeBtn = box.querySelector('.close');
+
+    function open(src, alt){
+      img.src = src; img.alt = alt || '';
+      box.classList.add('open');
+      box.setAttribute('aria-hidden','false');
+      document.body.style.overflow='hidden';
+      closeBtn.focus();
+    }
+    function close(){
+      box.classList.remove('open');
+      box.setAttribute('aria-hidden','true');
+      document.body.style.overflow='';
+      img.src = '';
+    }
+
+    document.addEventListener('click', (e)=>{
+      const t = e.target.closest('[data-zoom]');
+      if(t){ e.preventDefault(); open(t.getAttribute('data-zoom'), t.getAttribute('alt')); }
+      if(e.target === box) close();
+    });
+    closeBtn.addEventListener('click', close);
+    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') close(); });
+  })();
+</script>
+
 </body>
 </html>
