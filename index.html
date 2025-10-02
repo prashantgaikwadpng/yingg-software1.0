@@ -138,35 +138,23 @@
   position:relative;
   text-align:center;
 }
-.hero-wrap::before{
-  content:"";
-  position:absolute; inset:-8px -14px;
-  border-radius:22px;
-  background:
-    radial-gradient(120% 140% at 50% 45%,
-      rgba(0,0,0,.42) 0%,
-      rgba(0,0,0,.24) 55%,
-      rgba(0,0,0,.10) 100%);
-  backdrop-filter: saturate(120%) contrast(92%) blur(1.4px);
-  -webkit-backdrop-filter: saturate(120%) contrast(92%) blur(1.4px);
-  z-index:-1;
-}
-
+.hero-wrap::before{ content:none; }
 /* Edge + glow so gradient headline never disappears */
 .eyebrow, .hero h1, .hero .sub-rotator, .hero p{
   text-shadow:
-    0 0 1px rgba(0,0,0,.95),
-    0 2px 24px rgba(0,0,0,.72);
+    0 0 1px rgba(0,0,0,.85),
+    0 2px 18px rgba(0,0,0,.55);
 }
 .hero h1{
-  -webkit-text-stroke: .8px rgba(0,0,0,.45);
-  text-stroke: .8px rgba(0,0,0,.45);
+  -webkit-text-stroke: .6px rgba(0,0,0,.35);
+  text-stroke: .6px rgba(0,0,0,.35);
 }
 
-/* Smoothly hide hero text when v3 plays */
-.hero-wrap.off{
-  opacity:0; transform: translateY(8px);
-  transition: opacity .35s ease, transform .35s ease;
+
+/* Subtle, almost invisible on v3 only */
+.hero-wrap.dim{
+  opacity:.22;                   /* “invisible but showing” */
+  transition: opacity .35s ease; /* smooth in/out */
 }
 
 
@@ -659,45 +647,39 @@
     step();
   })();
 
-  /* ============== hero background playlist ============== */
+    /* ============== hero background playlist ============== */
   (function heroBgPlaylist(){
-    const video = document.querySelector('.hero-video');
+    const video  = document.querySelector('.hero-video');
     const slides = document.querySelector('.hero-slides');
-    if(!video || !slides) return;
+    const heroWrap = document.querySelector('.hero-wrap');
+    if(!video || !slides || !heroWrap) return;
+
     const files = ['v1','v2','v3','v4','v5','v6'].map(n => `/${n}.mp4`);
     let i = 0;
+
     function playNext(){
-      function playNext(){
-  const src = files[i % files.length]; i++;
-
-  /* ▼ Add this block ▼ */
-  const heroWrap = document.querySelector('.hero-wrap');
-  if (src.includes('/v3.mp4')) {
-    heroWrap && heroWrap.classList.add('off');   // hide text on v3
-  } else {
-    heroWrap && heroWrap.classList.remove('off'); // show text on others
-  }
-  /* ▲ Add this block ▲ */
-
-  while (video.firstChild) video.removeChild(video.firstChild);
-  const s = document.createElement('source'); s.src = src; s.type = 'video/mp4';
-  video.appendChild(s); video.load();
-  const start = video.play?.() || Promise.resolve();
-  start.catch(()=>{ /* autoplay blocked: keep images visible */ });
-  video.onended = playNext;
-}
-
       const src = files[i % files.length]; i++;
+
+      // v3 = make text barely visible; others = normal
+      if (src.includes('/v3.mp4')) {
+        heroWrap.classList.add('dim');
+      } else {
+        heroWrap.classList.remove('dim');
+      }
+
       while (video.firstChild) video.removeChild(video.firstChild);
       const s = document.createElement('source'); s.src = src; s.type = 'video/mp4';
       video.appendChild(s); video.load();
+
       const start = video.play?.() || Promise.resolve();
-      start.then(()=>{ /* ok */ }).catch(()=>{ /* autoplay blocked: keep images visible */ });
+      start.catch(()=>{ /* autoplay blocked: keep images visible */ });
       video.onended = playNext;
     }
+
     const FIRST_DELAY_MS = 5000;
     setTimeout(()=>{ slides.classList.add('hide'); video.classList.add('show'); playNext(); }, FIRST_DELAY_MS);
   })();
+
 
   /* ============== reveal on scroll + chart anims ============== */
   const io = new IntersectionObserver((entries)=>{
