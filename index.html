@@ -51,6 +51,10 @@
     -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
     overflow-x:hidden; padding-top: var(--header-h);
   }
+  @supports (min-height: 100svh){
+  body{ min-height: 100svh; }
+}
+
   @supports (font-synthesis-weight: none){
     body{ font-synthesis-weight: none; }
   }
@@ -147,7 +151,17 @@
   @keyframes headlineFlow{ 0%{ background-position: 0% 0; } 50%{ background-position: 100% 0; } 100%{ background-position: 0% 0; } }
   @keyframes glowPulse{ 0%,100%{ text-shadow: 0 0 8px rgba(0,255,255,0.55), 0 0 18px rgba(0,255,255,0.38); } 50%{ text-shadow: 0 0 18px rgba(138,123,255,0.85), 0 0 36px rgba(138,123,255,0.55); } }
 
-  .hero .sub-rotator{ min-height: 1.6em; font-weight:600; color:#e9ecff; font-variation-settings: "wght" 600; }
+/* SUBTITLE: reserve height on mobile and opt out of scroll anchoring */
+.hero .sub-rotator{
+  display:block;
+  min-height: 2.8em;         /* enough for up to 2 wrapped lines */
+  line-height: 1.4;
+  font-weight:600;
+  color:#e9ecff;
+  font-variation-settings: "wght" 600;
+  overflow-anchor: none;      /* prevent Chrome's auto nudge */
+}
+
   .hero p{ color:var(--muted); max-width:900px; }
   .hero-actions{ display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
 
@@ -690,6 +704,29 @@
     'Executive Reports • Strategy • Impact'
   ];
   let pi = 0, typing = false;
+  // Measure tallest phrase once and fix the container height to avoid reflow on Android
+(function fixSubRotatorHeight(){
+  if(!subRotator) return;
+  const tmp = document.createElement('div');
+  tmp.style.cssText = `
+    position:absolute; left:-9999px; top:-9999px;
+    visibility:hidden; white-space:normal; line-height:1.4;
+    font: inherit;
+    width:${subRotator.clientWidth || 300}px; /* approximate current width */
+  `;
+  document.body.appendChild(tmp);
+
+  let maxH = 0;
+  for(const p of phrases){
+    tmp.textContent = p;
+    maxH = Math.max(maxH, tmp.scrollHeight);
+  }
+  document.body.removeChild(tmp);
+
+  // Lock an explicit height in pixels so typing/wrapping never changes layout height
+  subRotator.style.height = maxH + 'px';
+})();
+
   function typePhrase(text, cb){
     typing = true; subRotator.textContent = ''; let i = 0;
     (function step(){ if(i <= text.length){ subRotator.textContent = text.slice(0, i++); setTimeout(step, 18); } else { typing = false; cb && setTimeout(cb, 1400); } })();
