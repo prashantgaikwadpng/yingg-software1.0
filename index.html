@@ -119,6 +119,25 @@
   z-index: 3;              /* <-- above canvas (z=2) and video (inside hero-bg) */
   display:grid; gap:20px; place-items:center; text-align:center;
 }
+/* Layer promotion to avoid flicker on Android */
+#home .hero-wrap,
+#home .hero-video,
+#home .hero-slides,
+#home #netCanvas {
+  will-change: opacity, transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Isolate hero background paints to prevent cross-layer invalidations */
+.hero-bg { isolation: isolate; contain: layout paint; }
+
+/* Android-only: turn off blend mode (fallback to normal compositing) */
+.android-no-blend .hero-video,
+.android-no-blend .hero-slides {
+  mix-blend-mode: normal !important;
+}
+
 
 /* Optional smooth fade when toggling visibility */
 .hero-wrap{
@@ -603,7 +622,9 @@
     let w, h, dpr, points, maxDist;
 
     function resize(){
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+     const isAndroid = /Android/i.test(navigator.userAgent);
+dpr = isAndroid ? 1 : Math.min(window.devicePixelRatio || 1, 2);
+
       w = canvas.clientWidth; h = canvas.clientHeight;
       canvas.width = w * dpr; canvas.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -638,6 +659,11 @@
     }
     step();
   })();
+  /* === ANDROID FLAG: add class to <html> so CSS can disable blend mode on Android === */
+(function(){
+  const isAndroid = /Android/i.test(navigator.userAgent);
+  if (isAndroid) document.documentElement.classList.add('android-no-blend');
+})();
 
   /* ============== hero background playlist ============== */
   (function heroBgPlaylist(){
@@ -652,7 +678,7 @@
   // v3 => dim text; others => full visibility
   const home = document.getElementById('home');
   if (home) home.classList.toggle('dim-hero-text', src.includes('/v3.mp4'));
-
+#home.dim-hero-text .hero-wrap{ opacity:.28; }
   while (video.firstChild) video.removeChild(video.firstChild);
   const s = document.createElement('source'); s.src = src; s.type = 'video/mp4';
   video.appendChild(s); video.load();
